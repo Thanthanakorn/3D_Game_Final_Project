@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "6bd91061-5eac-4b05-a898-c8a301481e4f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Camera",
                     "type": "PassThrough",
                     "id": "21a8a937-abed-4235-aa27-58017ad20c1c",
@@ -102,28 +93,6 @@
                 },
                 {
                     "name": "",
-                    "id": "bd35f6fe-ec68-41d8-8f8a-636836ed3cb1",
-                    "path": "<Gamepad>/leftStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "871c677c-95f3-4a2e-8d17-5eafd328e951",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "76311885-c6f0-40a3-ad09-beb36b362428",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -141,6 +110,45 @@
                     "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Player Actions",
+            "id": "d3c7e064-b001-4336-836e-3aee1f146dba",
+            "actions": [
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "68deb486-b890-4c99-8882-59bfe94f73bc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "22a336e5-b71b-4d03-a10c-bddec8c81087",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e075adb-a68a-40c0-bea5-5e0f79f313a9",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

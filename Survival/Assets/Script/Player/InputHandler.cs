@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
@@ -8,6 +7,9 @@ public class InputHandler : MonoBehaviour
     public float moveAmount;
     public float mouseX;
     public float mouseY;
+    public bool bInput;
+    public bool rollFlag;
+    public bool isInteracting;
 
     private PlayerControls _inputActions;
     private CameraHandler _cameraHandler;
@@ -47,9 +49,11 @@ public class InputHandler : MonoBehaviour
         _inputActions.Disable();
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void TickInput(float delta)
     {
         MoveInput(delta);
+        HandleRollingInput(delta);
     }
 
     private void MoveInput(float delta)
@@ -59,5 +63,15 @@ public class InputHandler : MonoBehaviour
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
         mouseX = _cameraInput.x;
         mouseY = _cameraInput.y;
+    }
+
+    private void HandleRollingInput(float delta)
+    {
+        bInput = _inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+        if (bInput)
+        {
+            Debug.Log("Rolling");
+            rollFlag = true;
+        }
     }
 }

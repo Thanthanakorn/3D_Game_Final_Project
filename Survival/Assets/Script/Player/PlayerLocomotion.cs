@@ -30,38 +30,21 @@ public class PlayerLocomotion : MonoBehaviour
         float delta = Time.deltaTime;
         
         _inputHandler.TickInput(delta);
-
-        _moveDirection = _cameraObject.forward * _inputHandler.vertical;
-        _moveDirection += _cameraObject.right * _inputHandler.horizontal;
-        _moveDirection.Normalize();
-        _moveDirection.y = 0;
-        
-        float speed = movementSpeed;
-        _moveDirection *= speed;
-
-        Vector3 projectedVelocity = Vector3.ProjectOnPlane(_moveDirection, _normalVector);
-        rigidbody.velocity = projectedVelocity;
-
-        animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0);
-        
-        if (animatorHandler.canRotate)
-        {
-            HandleRotation(delta);
-        }
-        
+        HandleMovement(delta);
+        HandleRollingAndSprinting(delta);
     }
 
     #region Movement
 
     private Vector3 _normalVector;
     private Vector3 _targetPosition;
+    private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
 
     private void HandleRotation(float delta)
     {
-        Vector3 targetDir;
-        float moveOverride = _inputHandler.moveAmount;
+        //float moveOverride = _inputHandler.moveAmount;
 
-        targetDir = _cameraObject.forward * _inputHandler.vertical;
+        var targetDir = _cameraObject.forward * _inputHandler.vertical;
         targetDir += _cameraObject.right * _inputHandler.horizontal;
         
         targetDir.Normalize();
@@ -78,6 +61,48 @@ public class PlayerLocomotion : MonoBehaviour
         Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
 
         myTransform.rotation = targetRotation;
+    }
+
+    public void HandleMovement(float delta)
+    {
+        _moveDirection = _cameraObject.forward * _inputHandler.vertical;
+        _moveDirection += _cameraObject.right * _inputHandler.horizontal;
+        _moveDirection.Normalize();
+        _moveDirection.y = 0;
+        
+        var speed = movementSpeed;
+        _moveDirection *= speed;
+
+        var projectedVelocity = Vector3.ProjectOnPlane(_moveDirection, _normalVector);
+        rigidbody.velocity = projectedVelocity;
+
+        animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0);
+        
+        if (animatorHandler.canRotate)
+        {
+            HandleRotation(delta);
+        }
+    }
+
+    // ReSharper disable Unity.PerformanceAnalysis
+    public void HandleRollingAndSprinting(float delta)
+    {
+        if (animatorHandler.anim.GetBool(IsInteracting))
+            return;
+        
+        if (_inputHandler.rollFlag)
+        {
+            _moveDirection = _cameraObject.forward * _inputHandler.vertical;
+            _moveDirection += _cameraObject.right * _inputHandler.horizontal;
+
+            if (_inputHandler.moveAmount > 0)
+            {
+                animatorHandler.PlayTargetAnimation("Rolling", true);
+                _moveDirection.y = 0;
+                var rollRotation = Quaternion.LookRotation(_moveDirection);
+                myTransform.rotation = rollRotation;
+            }
+        }
     }
 
     #endregion
