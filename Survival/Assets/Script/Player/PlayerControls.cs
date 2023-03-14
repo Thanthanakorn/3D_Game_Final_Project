@@ -29,7 +29,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""ad2ee6f7-a5aa-4796-bb37-f5bcbae68513"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": ""NormalizeVector2"",
@@ -47,7 +47,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Camera"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""21a8a937-abed-4235-aa27-58017ad20c1c"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -57,7 +57,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""WASD"",
                     ""id"": ""72d0d52b-3f8a-458a-a244-176672acdce1"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",

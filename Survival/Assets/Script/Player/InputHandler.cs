@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
@@ -9,11 +10,24 @@ public class InputHandler : MonoBehaviour
     public float mouseY;
 
     private PlayerControls _inputActions;
+    private CameraHandler _cameraHandler;
     
-    
-
     private Vector2 _movementInput;
-    Vector2 _cameraInput;
+    private Vector2 _cameraInput;
+
+    private void Awake()
+    {
+        _cameraHandler = CameraHandler.Singleton;
+    }
+
+    private void FixedUpdate()
+    {
+        var delta = Time.fixedDeltaTime;
+
+        if (_cameraHandler == null) return;
+        _cameraHandler.FollowTarget(delta);
+        _cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+    }
 
     public void OnEnable()
     {
