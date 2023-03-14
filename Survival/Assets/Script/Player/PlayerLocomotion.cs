@@ -4,6 +4,7 @@ public class PlayerLocomotion : MonoBehaviour
 {
     private Transform _cameraObject;
     private InputHandler _inputHandler;
+    private PlayerManager _playerManager;
     private Vector3 _moveDirection;
 
     [HideInInspector] public Transform myTransform;
@@ -13,11 +14,14 @@ public class PlayerLocomotion : MonoBehaviour
     public GameObject normalCamera;
 
     [Header("Stats")] [SerializeField] private float movementSpeed;
-    [SerializeField] private float rotationSpeed = 10;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private float rollingSpeed;
+    [SerializeField] private float sprintSpeed;
 
-    void Start()
+    private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        _playerManager = GetComponent<PlayerManager>();
         _inputHandler = GetComponent<InputHandler>();
         animatorHandler = GetComponentInChildren<AnimatorHandler>();
         if (Camera.main != null) _cameraObject = Camera.main.transform;
@@ -25,19 +29,11 @@ public class PlayerLocomotion : MonoBehaviour
         animatorHandler.Initialize();
     }
 
-    private void Update()
-    {
-        float delta = Time.deltaTime;
-        
-        _inputHandler.TickInput(delta);
-        HandleMovement(delta);
-        HandleRollingAndSprinting(delta);
-    }
-
     #region Movement
 
     private Vector3 _normalVector;
     private Vector3 _targetPosition;
+
     private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
 
     private void HandleRotation(float delta)
@@ -65,18 +61,31 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleMovement(float delta)
     {
+        if (_inputHandler.rollFlag)
+            return;
+        
         _moveDirection = _cameraObject.forward * _inputHandler.vertical;
         _moveDirection += _cameraObject.right * _inputHandler.horizontal;
         _moveDirection.Normalize();
         _moveDirection.y = 0;
-        
+
         var speed = movementSpeed;
-        _moveDirection *= speed;
+
+        if (_inputHandler.sprintFlag)
+        {
+            speed = sprintSpeed;
+            _playerManager.isSprinting = true;
+            _moveDirection *= speed;
+        }
+        else
+        {
+            _moveDirection *= speed;
+        }
 
         var projectedVelocity = Vector3.ProjectOnPlane(_moveDirection, _normalVector);
         rigidbody.velocity = projectedVelocity;
 
-        animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0);
+        animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0, _playerManager.isSprinting);
         
         if (animatorHandler.canRotate)
         {
@@ -84,7 +93,6 @@ public class PlayerLocomotion : MonoBehaviour
         }
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     public void HandleRollingAndSprinting(float delta)
     {
         if (animatorHandler.anim.GetBool(IsInteracting))
@@ -99,8 +107,14 @@ public class PlayerLocomotion : MonoBehaviour
             {
                 animatorHandler.PlayTargetAnimation("Rolling", true);
                 _moveDirection.y = 0;
-                var rollRotation = Quaternion.LookRotation(_moveDirection);
+                _moveDirection.Normalize();
+                _moveDirection *= rollingSpeed; 
+                Quaternion rollRotation = Quaternion.LookRotation(_moveDirection);
                 myTransform.rotation = rollRotation;
+            }
+            else
+            {
+                animatorHandler.PlayTargetAnimation("Backstep",true);
             }
         }
     }

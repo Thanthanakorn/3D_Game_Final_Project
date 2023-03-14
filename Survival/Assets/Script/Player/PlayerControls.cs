@@ -154,17 +154,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""22a336e5-b71b-4d03-a10c-bddec8c81087"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Roll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7e075adb-a68a-40c0-bea5-5e0f79f313a9"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",

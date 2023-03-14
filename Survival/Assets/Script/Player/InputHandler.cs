@@ -9,27 +9,14 @@ public class InputHandler : MonoBehaviour
     public float mouseY;
     public bool bInput;
     public bool rollFlag;
-    public bool isInteracting;
+    public bool sprintFlag;
+    public float rollInputTimer;
 
     private PlayerControls _inputActions;
     private CameraHandler _cameraHandler;
     
     private Vector2 _movementInput;
     private Vector2 _cameraInput;
-
-    private void Awake()
-    {
-        _cameraHandler = CameraHandler.Singleton;
-    }
-
-    private void FixedUpdate()
-    {
-        var delta = Time.fixedDeltaTime;
-
-        if (_cameraHandler == null) return;
-        _cameraHandler.FollowTarget(delta);
-        _cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
-    }
 
     public void OnEnable()
     {
@@ -67,11 +54,21 @@ public class InputHandler : MonoBehaviour
 
     private void HandleRollingInput(float delta)
     {
-        bInput = _inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+        bInput = _inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
         if (bInput)
         {
-            Debug.Log("Rolling");
-            rollFlag = true;
+            rollInputTimer += delta;
+            sprintFlag = true;
+        }
+        else
+        {
+            if (rollInputTimer > 0 && rollInputTimer < 0.5f)
+            {
+                sprintFlag = false;
+                rollFlag = true;
+            }
+
+            rollInputTimer = 0;
         }
     }
 }
