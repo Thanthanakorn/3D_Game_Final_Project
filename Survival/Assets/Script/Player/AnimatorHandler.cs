@@ -37,7 +37,7 @@ public class AnimatorHandler : MonoBehaviour
 
         #region Horizontal
 
-        float h = horizontalMovement switch
+        var h = horizontalMovement switch
         {
             > 0 and < 0.55f => 1,
             < 0 and > -0.55f => -0.5f,

@@ -9,7 +9,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     [HideInInspector] public Transform myTransform;
     [HideInInspector] public AnimatorHandler animatorHandler;
-    
+
     public new Rigidbody rigidbody;
     public GameObject normalCamera;
 
@@ -38,24 +38,24 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleRotation(float delta)
     {
-        //float moveOverride = _inputHandler.moveAmount;
-
+        //var moveOverride = _inputHandler.moveAmount;
+    
         var targetDir = _cameraObject.forward * _inputHandler.vertical;
         targetDir += _cameraObject.right * _inputHandler.horizontal;
         
         targetDir.Normalize();
         targetDir.y = 0;
-
+    
         if (targetDir == Vector3.zero)
         {
             targetDir = myTransform.forward;
         }
-
+    
         float rs = rotationSpeed;
-
+    
         Quaternion tr = Quaternion.LookRotation(targetDir);
         Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
-
+    
         myTransform.rotation = targetRotation;
     }
 
@@ -63,7 +63,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if (_inputHandler.rollFlag)
             return;
-        
+
         _moveDirection = _cameraObject.forward * _inputHandler.vertical;
         _moveDirection += _cameraObject.right * _inputHandler.horizontal;
         _moveDirection.Normalize();
@@ -86,7 +86,7 @@ public class PlayerLocomotion : MonoBehaviour
         rigidbody.velocity = projectedVelocity;
 
         animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0, _playerManager.isSprinting);
-        
+
         if (animatorHandler.canRotate)
         {
             HandleRotation(delta);
@@ -97,7 +97,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if (animatorHandler.anim.GetBool(IsInteracting))
             return;
-        
+
         if (_inputHandler.rollFlag)
         {
             _moveDirection = _cameraObject.forward * _inputHandler.vertical;
@@ -114,7 +114,7 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else
             {
-                animatorHandler.PlayTargetAnimation("Backstep",true);
+                animatorHandler.PlayTargetAnimation("Backstep", true);
             }
         }
     }
