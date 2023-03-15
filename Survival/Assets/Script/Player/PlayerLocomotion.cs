@@ -5,7 +5,7 @@ public class PlayerLocomotion : MonoBehaviour
     private Transform _cameraObject;
     private InputHandler _inputHandler;
     private PlayerManager _playerManager;
-    private Vector3 _moveDirection;
+    public Vector3 moveDirection;
 
     [HideInInspector] public Transform myTransform;
     [HideInInspector] public AnimatorHandler animatorHandler;
@@ -13,10 +13,18 @@ public class PlayerLocomotion : MonoBehaviour
     public new Rigidbody rigidbody;
     public GameObject normalCamera;
 
-    [Header("Stats")] [SerializeField] private float movementSpeed;
+    [Header("Ground & Air Detection Stats")] 
+    [SerializeField] private float groundDetectionRayStartPoint = 0.5f;
+    [SerializeField] private float minimumDistanceNeededToBeginFall = 1f;
+    [SerializeField] private float groundDirectionRayDistance = 0.2f;
+    private LayerMask _ignoreForGroundCheck;
+    public float inAirTimer;
+
+    [Header("Movement Stats")] [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float rollingSpeed;
     [SerializeField] private float sprintSpeed;
+    [SerializeField] private float fallingSpeed = 45f;
 
     private void Start()
     {
@@ -27,6 +35,9 @@ public class PlayerLocomotion : MonoBehaviour
         if (Camera.main != null) _cameraObject = Camera.main.transform;
         myTransform = transform;
         animatorHandler.Initialize();
+
+        _playerManager.isGrounded = true;
+        _ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
     }
 
     #region Movement
@@ -63,11 +74,14 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if (_inputHandler.rollFlag)
             return;
+        
+        if (_playerManager.isInteracting)
+            return;
 
-        _moveDirection = _cameraObject.forward * _inputHandler.vertical;
-        _moveDirection += _cameraObject.right * _inputHandler.horizontal;
-        _moveDirection.Normalize();
-        _moveDirection.y = 0;
+        moveDirection = _cameraObject.forward * _inputHandler.vertical;
+        moveDirection += _cameraObject.right * _inputHandler.horizontal;
+        moveDirection.Normalize();
+        moveDirection.y = 0;
 
         var speed = movementSpeed;
 
@@ -75,14 +89,14 @@ public class PlayerLocomotion : MonoBehaviour
         {
             speed = sprintSpeed;
             _playerManager.isSprinting = true;
-            _moveDirection *= speed;
+            moveDirection *= speed;
         }
         else
         {
-            _moveDirection *= speed;
+            moveDirection *= speed;
         }
 
-        var projectedVelocity = Vector3.ProjectOnPlane(_moveDirection, _normalVector);
+        var projectedVelocity = Vector3.ProjectOnPlane(moveDirection, _normalVector);
         rigidbody.velocity = projectedVelocity;
 
         animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0, _playerManager.isSprinting);
@@ -100,16 +114,16 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (_inputHandler.rollFlag)
         {
-            _moveDirection = _cameraObject.forward * _inputHandler.vertical;
-            _moveDirection += _cameraObject.right * _inputHandler.horizontal;
+            moveDirection = _cameraObject.forward * _inputHandler.vertical;
+            moveDirection += _cameraObject.right * _inputHandler.horizontal;
 
             if (_inputHandler.moveAmount > 0)
             {
                 animatorHandler.PlayTargetAnimation("Rolling", true);
-                _moveDirection.y = 0;
-                _moveDirection.Normalize();
-                _moveDirection *= rollingSpeed; 
-                Quaternion rollRotation = Quaternion.LookRotation(_moveDirection);
+                moveDirection.y = 0;
+                moveDirection *= rollingSpeed; 
+                moveDirection.Normalize();
+                Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = rollRotation;
             }
             else
@@ -118,6 +132,90 @@ public class PlayerLocomotion : MonoBehaviour
             }
         }
     }
+
+    public void HandleFalling(float delta, Vector3 moveDirectionVector3)
+    {
+        _playerManager.isGrounded = false;
+        RaycastHit hit;
+        Vector3 origin = myTransform.position;
+        origin.y += groundDetectionRayStartPoint;
+
+        if (Physics.Raycast(origin, myTransform.forward, out hit, 0.4f))
+        {
+            moveDirectionVector3 = Vector3.zero;
+        }
+
+        if (_playerManager.isInAir)
+        {
+            rigidbody.AddForce(-Vector3.up * fallingSpeed);
+            rigidbody.AddForce(moveDirectionVector3 * fallingSpeed / 10f);
+        }
+
+        Vector3 dir = moveDirectionVector3;
+        dir.Normalize();
+        origin += dir * groundDirectionRayDistance;
+
+        _targetPosition = myTransform.position;
+        
+        Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.1f, false);
+        if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, _ignoreForGroundCheck))
+        {
+            _normalVector = hit.normal;
+            Vector3 tp = hit.point;
+            _playerManager.isGrounded = true;
+            _targetPosition.y = tp.y;
+
+            if (_playerManager.isInAir)
+            {
+                if (inAirTimer > 0.5f)
+                {
+                    Debug.Log("You were in the air for " + inAirTimer);
+                    animatorHandler.PlayTargetAnimation("Landing", true);
+                    inAirTimer = 0;
+                }
+                else
+                {
+                    animatorHandler.PlayTargetAnimation("Locomotion", false);
+                    inAirTimer = 0;
+                }
+
+                _playerManager.isInAir = false;
+            }
+        }
+        else
+        {
+            if (_playerManager.isGrounded)
+            {
+                _playerManager.isGrounded = false;
+            }
+
+            if (_playerManager.isInAir == false)
+            {
+                if (_playerManager.isInteracting == false)
+                {
+                    animatorHandler.PlayTargetAnimation("Falling",true);
+                }
+
+                Vector3 vel = rigidbody.velocity;
+                vel.Normalize();
+                rigidbody.velocity = vel * (movementSpeed / 2);
+                _playerManager.isInAir = true;
+            }
+        }
+
+        if (_playerManager.isGrounded)
+        {
+            if (_playerManager.isInteracting || _inputHandler.moveAmount > 0)
+            {
+                myTransform.position = Vector3.Lerp(myTransform.position, _targetPosition, Time.deltaTime);
+            }
+            else
+            {
+                myTransform.position = _targetPosition;
+            }
+        }
+    }
+    
 
     #endregion
 }
