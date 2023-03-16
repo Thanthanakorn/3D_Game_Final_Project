@@ -551,11 +551,14 @@ MonoBehaviour:
   minimumDistanceNeededToBeginFall: 1
   groundDirectionRayDistance: 0.2
   inAirTimer: 0
-  movementSpeed: 28
+  movementSpeed: 20
   rotationSpeed: 10
-  rollingSpeed: 500
+  rollingSpeed: 1
   sprintSpeed: 54
   fallingSpeed: 200
+  rollingDistance: 30
+  stepBackDistance: 10
+  stepBackSpeed: 5
 --- !u!114 &846521449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,10 +576,10 @@ MonoBehaviour:
   moveAmount: 0
   mouseX: 0
   mouseY: 0
-  bInput: 0
+  shiftInput: 0
+  ctrlInput: 0
   rollFlag: 0
   sprintFlag: 0
-  rollInputTimer: 0
 --- !u!136 &846521450
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -615,7 +618,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846521446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.96, z: 0}
+  m_LocalPosition: {x: 60, y: 27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
