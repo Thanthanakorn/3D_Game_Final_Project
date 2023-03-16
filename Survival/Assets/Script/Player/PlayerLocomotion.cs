@@ -6,13 +6,14 @@ public class PlayerLocomotion : MonoBehaviour
     private Transform _cameraObject;
     private InputHandler _inputHandler;
     private PlayerManager _playerManager;
+    private PlayerStats _playerStats;
     public Vector3 moveDirection;
+    
 
     [HideInInspector] public Transform myTransform;
     [HideInInspector] public AnimatorHandler animatorHandler;
 
     public new Rigidbody rigidbody;
-    public GameObject normalCamera;
 
     [Header("Ground & Air Detection Stats")] 
     [SerializeField] private float groundDetectionRayStartPoint = 0.5f;
@@ -38,6 +39,7 @@ public class PlayerLocomotion : MonoBehaviour
         _playerManager = GetComponent<PlayerManager>();
         _inputHandler = GetComponent<InputHandler>();
         animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        _playerStats = GetComponent<PlayerStats>();
         if (Camera.main != null) _cameraObject = Camera.main.transform;
         myTransform = transform;
         animatorHandler.Initialize();
@@ -55,8 +57,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleRotation(float delta)
     {
-        //var moveOverride = _inputHandler.moveAmount;
-    
+        if (_playerStats.isDead)
+            return;
         var targetDir = _cameraObject.forward * _inputHandler.vertical;
         targetDir += _cameraObject.right * _inputHandler.horizontal;
         
@@ -162,24 +164,6 @@ public class PlayerLocomotion : MonoBehaviour
                 Vector3 targetPosition = myTransform.position + moveDirection;
                 StartCoroutine(MoveOverSpeed(gameObject, targetPosition, stepBackSpeed));
             }
-        }
-    }
-
-    private IEnumerator ApplyRollingMovement(float delta)
-    {
-        Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
-        myTransform.rotation = rollRotation;
-
-        float elapsedTime = 0f;
-        float duration = 1.17f; // Adjust this value to match the rolling animation's duration
-        Vector3 initialPosition = myTransform.position;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration;
-            myTransform.position = Vector3.Lerp(initialPosition, initialPosition + moveDirection * rollingSpeed, t);
-            yield return null;
         }
     }
     

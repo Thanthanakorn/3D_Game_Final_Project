@@ -1,19 +1,22 @@
-using System;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    private Rigidbody _rigidbody;
     public int healthLevel = 10;
     public int maxHealth;
     public int currentHealth;
+    public bool isDead;
 
     public HealthBar healthBar;
-
+    
     private AnimatorHandler _animatorHandler;
 
     private void Awake()
     {
         _animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        _rigidbody = GetComponent<Rigidbody>();
+        isDead = false;
     }
 
     private void Start()
@@ -38,6 +41,10 @@ public class PlayerStats : MonoBehaviour
         if (currentHealth <= 0)
         {
             _animatorHandler.PlayTargetAnimation("Dead Forward", true);
+            var constraints = _rigidbody.constraints;
+            constraints |= RigidbodyConstraints.FreezePositionX; // Freeze position along the y-axis
+            constraints |= RigidbodyConstraints.FreezePositionZ; // Freeze position along the z-axis
+            _rigidbody.constraints = constraints;
         }
     }
 }
