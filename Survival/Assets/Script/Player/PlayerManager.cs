@@ -38,6 +38,7 @@ public class PlayerManager : MonoBehaviour
         _playerLocomotion.HandleMovement(delta);
         _playerLocomotion.HandleRollingAndSprinting(delta);
         _playerLocomotion.HandleFalling(delta, _playerLocomotion.moveDirection);
+        
     }
     
     private void FixedUpdate()
@@ -53,7 +54,8 @@ public class PlayerManager : MonoBehaviour
     {
         _inputHandler.rollFlag = false;
         _inputHandler.sprintFlag = false;
-        isSprinting = _inputHandler.bInput;
+        // Check if the player is holding the sprint button
+        isSprinting = _inputHandler.sprintFlag;
 
         if (isInAir)
         {

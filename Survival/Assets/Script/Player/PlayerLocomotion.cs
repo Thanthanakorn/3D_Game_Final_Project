@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerLocomotion : MonoBehaviour
@@ -25,6 +26,11 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] private float rollingSpeed;
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float fallingSpeed = 45f;
+    
+    [SerializeField] private float rollingDistance = 3f;
+    [SerializeField] private float stepBackDistance = 1f;
+    [SerializeField] private float stepBackSpeed = 5f;
+
 
     private void Start()
     {
@@ -74,7 +80,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if (_inputHandler.rollFlag)
             return;
-        
+
         if (_playerManager.isInteracting)
             return;
 
@@ -89,6 +95,12 @@ public class PlayerLocomotion : MonoBehaviour
         {
             speed = sprintSpeed;
             _playerManager.isSprinting = true;
+
+            // Reduce the horizontal speed factor while sprinting (e.g., multiply by 0.5)
+            float horizontalSpeedFactor = 0.5f;
+            moveDirection.x *= horizontalSpeedFactor;
+            moveDirection.z *= horizontalSpeedFactor;
+
             moveDirection *= speed;
         }
         else
@@ -100,6 +112,7 @@ public class PlayerLocomotion : MonoBehaviour
         rigidbody.velocity = projectedVelocity;
 
         animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0, _playerManager.isSprinting);
+        
 
         if (animatorHandler.canRotate)
         {
@@ -121,17 +134,66 @@ public class PlayerLocomotion : MonoBehaviour
             {
                 animatorHandler.PlayTargetAnimation("Rolling", true);
                 moveDirection.y = 0;
-                moveDirection *= rollingSpeed; 
                 moveDirection.Normalize();
+                moveDirection *= rollingDistance;
                 Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = rollRotation;
+
+                Vector3 targetPosition = myTransform.position + moveDirection;
+                StartCoroutine(MoveOverSpeed(gameObject, targetPosition, rollingSpeed));
             }
             else
             {
                 animatorHandler.PlayTargetAnimation("Backstep", true);
+                moveDirection = -myTransform.forward;
+                moveDirection.y = 0;
+                moveDirection.Normalize();
+                moveDirection *= stepBackDistance;
+
+                Vector3 targetPosition = myTransform.position + moveDirection;
+                StartCoroutine(MoveOverSpeed(gameObject, targetPosition, stepBackSpeed));
             }
         }
     }
+
+
+
+    private IEnumerator ApplyRollingMovement(float delta)
+    {
+        Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
+        myTransform.rotation = rollRotation;
+
+        float elapsedTime = 0f;
+        float duration = 1.17f; // Adjust this value to match the rolling animation's duration
+        Vector3 initialPosition = myTransform.position;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            myTransform.position = Vector3.Lerp(initialPosition, initialPosition + moveDirection * rollingSpeed, t);
+            yield return null;
+        }
+    }
+    
+    IEnumerator MoveOverSpeed(GameObject objectToMove, Vector3 end, float speed)
+    {
+        float startTime = Time.time;
+        float overTime = 1 / speed;
+        Vector3 startPosition = objectToMove.transform.position;
+
+        while (Time.time < startTime + overTime)
+        {
+            objectToMove.transform.position = Vector3.Lerp(startPosition, end, (Time.time - startTime) * speed);
+            yield return null;
+        }
+
+        objectToMove.transform.position = end;
+    }
+
+
+
+
 
     public void HandleFalling(float delta, Vector3 moveDirectionVector3)
     {
