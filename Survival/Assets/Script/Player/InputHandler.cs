@@ -7,16 +7,27 @@ public class InputHandler : MonoBehaviour
     public float moveAmount;
     public float mouseX;
     public float mouseY;
+    
     public bool shiftInput;
     public bool ctrlInput;
     public bool rollFlag;
     public bool sprintFlag;
+    public bool rbInput;
+    public bool rtInput;
 
     private PlayerControls _inputActions;
+    private PlayerAttacker _playerAttacker;
     private CameraHandler _cameraHandler;
+    private PlayerInventory _playerInventory;
     
     private Vector2 _movementInput;
     private Vector2 _cameraInput;
+
+    private void Awake()
+    {
+        _playerAttacker = GetComponent<PlayerAttacker>();
+        _playerInventory = GetComponent<PlayerInventory>();
+    }
 
     public void OnEnable()
     {
@@ -41,6 +52,7 @@ public class InputHandler : MonoBehaviour
     {
         MoveInput(delta);
         HandleRollingAndSprintingInput(delta);
+        HandleAttackInput(delta);
     }
 
     private void MoveInput(float delta)
@@ -59,5 +71,28 @@ public class InputHandler : MonoBehaviour
 
         rollFlag = ctrlInput;
         sprintFlag = shiftInput;
+    }
+
+    private void HandleAttackInput(float delta)
+    {
+        _inputActions.PlayerActions.RB.performed += _ => rbInput = true;
+        _inputActions.PlayerActions.RT.performed += _ => rtInput = true;
+
+        if (rbInput)
+        {
+            
+            if (_playerInventory != null)
+            {
+                _playerAttacker.HandleLightAttack(_playerInventory.rightWeapon);
+            }
+            else
+            {
+                Debug.Log("_playerInventory is null");
+            }
+        }
+        if (rtInput)
+        {
+            _playerAttacker.HandleHeaveAttack(_playerInventory.rightWeapon);
+        }
     }
 }

@@ -54,8 +54,8 @@ public class PlayerManager : MonoBehaviour
     {
         _inputHandler.rollFlag = false;
         _inputHandler.sprintFlag = false;
-        // Check if the player is holding the sprint button
-        isSprinting = _inputHandler.sprintFlag;
+        _inputHandler.rtInput = false;
+        _inputHandler.rbInput = false;
 
         if (isInAir)
         {

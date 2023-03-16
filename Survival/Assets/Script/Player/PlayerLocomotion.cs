@@ -91,7 +91,7 @@ public class PlayerLocomotion : MonoBehaviour
 
         var speed = movementSpeed;
 
-        if (_inputHandler.sprintFlag)
+        if (_inputHandler.sprintFlag && _inputHandler.moveAmount > 0.5)
         {
             speed = sprintSpeed;
             _playerManager.isSprinting = true;
@@ -105,7 +105,16 @@ public class PlayerLocomotion : MonoBehaviour
         }
         else
         {
-            moveDirection *= speed;
+            if (_inputHandler.moveAmount < 0.5)
+            {
+                moveDirection *= movementSpeed;
+                _playerManager.isSprinting = false;
+            }
+            else
+            {
+                moveDirection *= speed;
+                _playerManager.isSprinting = false;
+            }
         }
 
         var projectedVelocity = Vector3.ProjectOnPlane(moveDirection, _normalVector);
@@ -156,8 +165,6 @@ public class PlayerLocomotion : MonoBehaviour
         }
     }
 
-
-
     private IEnumerator ApplyRollingMovement(float delta)
     {
         Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
@@ -190,10 +197,6 @@ public class PlayerLocomotion : MonoBehaviour
 
         objectToMove.transform.position = end;
     }
-
-
-
-
 
     public void HandleFalling(float delta, Vector3 moveDirectionVector3)
     {
