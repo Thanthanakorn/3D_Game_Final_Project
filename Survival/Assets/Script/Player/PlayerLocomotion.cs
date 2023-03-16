@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerLocomotion : MonoBehaviour
@@ -121,10 +122,9 @@ public class PlayerLocomotion : MonoBehaviour
             {
                 animatorHandler.PlayTargetAnimation("Rolling", true);
                 moveDirection.y = 0;
-                moveDirection *= rollingSpeed; 
                 moveDirection.Normalize();
-                Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
-                myTransform.rotation = rollRotation;
+                moveDirection *= rollingSpeed;
+                StartCoroutine(ApplyRollingMovement(delta)); // Use a Coroutine to apply rolling movement smoothly
             }
             else
             {
@@ -132,6 +132,27 @@ public class PlayerLocomotion : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator ApplyRollingMovement(float delta)
+    {
+        Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
+        myTransform.rotation = rollRotation;
+
+        float elapsedTime = 0f;
+        float duration = 1.17f; // Adjust this value to match the rolling animation's duration
+        Vector3 initialPosition = myTransform.position;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            myTransform.position = Vector3.Lerp(initialPosition, initialPosition + moveDirection * rollingSpeed, t);
+            yield return null;
+        }
+    }
+
+
+
 
     public void HandleFalling(float delta, Vector3 moveDirectionVector3)
     {

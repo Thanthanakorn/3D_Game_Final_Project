@@ -7,10 +7,10 @@ public class InputHandler : MonoBehaviour
     public float moveAmount;
     public float mouseX;
     public float mouseY;
-    public bool bInput;
+    public bool shiftInput;
+    public bool ctrlInput;
     public bool rollFlag;
     public bool sprintFlag;
-    public float rollInputTimer;
 
     private PlayerControls _inputActions;
     private CameraHandler _cameraHandler;
@@ -40,7 +40,7 @@ public class InputHandler : MonoBehaviour
     public void TickInput(float delta)
     {
         MoveInput(delta);
-        HandleRollingInput(delta);
+        HandleRollingAndSprintingInput(delta);
     }
 
     private void MoveInput(float delta)
@@ -52,23 +52,12 @@ public class InputHandler : MonoBehaviour
         mouseY = _cameraInput.y;
     }
 
-    private void HandleRollingInput(float delta)
+    private void HandleRollingAndSprintingInput(float delta)
     {
-        bInput = _inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
-        if (bInput)
-        {
-            rollInputTimer += delta;
-            sprintFlag = true;
-        }
-        else
-        {
-            if (rollInputTimer > 0 && rollInputTimer < 0.5f)
-            {
-                sprintFlag = false;
-                rollFlag = true;
-            }
+        ctrlInput = _inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+        shiftInput = _inputActions.PlayerActions.Sprint.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
 
-            rollInputTimer = 0;
-        }
+        rollFlag = ctrlInput;
+        sprintFlag = shiftInput;
     }
 }
