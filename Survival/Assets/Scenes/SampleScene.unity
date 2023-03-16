@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -547,14 +547,14 @@ MonoBehaviour:
   animatorHandler: {fileID: 0}
   rigidbody: {fileID: 846521451}
   normalCamera: {fileID: 0}
-  groundDetectionRayStartPoint: 0.5
+  groundDetectionRayStartPoint: 1
   minimumDistanceNeededToBeginFall: 1
-  groundDirectionRayDistance: 0.2
+  groundDirectionRayDistance: -0.2
   inAirTimer: 0
   movementSpeed: 20
   rotationSpeed: 10
   rollingSpeed: 1
-  sprintSpeed: 54
+  sprintSpeed: 90
   fallingSpeed: 200
   rollingDistance: 30
   stepBackDistance: 10
@@ -590,10 +590,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.0210215
-  m_Height: 5.645732
+  m_Radius: 1.9476752
+  m_Height: 6.9625454
   m_Direction: 1
-  m_Center: {x: -0.057696342, y: 3.7391052, z: -0.03109777}
+  m_Center: {x: -0.116380215, y: 4.3737593, z: -0.329504}
 --- !u!54 &846521451
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -618,7 +618,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846521446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 60, y: 27, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -749,7 +749,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465013887}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.5037, y: 1, z: 84.7}
+  m_LocalPosition: {x: 36.5037, y: 0, z: 84.7}
   m_LocalScale: {x: 24.622646, y: 1, z: 33.89347}
   m_ConstrainProportionsScale: 0
   m_Children: []
