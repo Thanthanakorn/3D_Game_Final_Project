@@ -767,7 +767,6 @@ MonoBehaviour:
   rollingDistance: 30
   stepBackDistance: 10
   stepBackSpeed: 5
-  jumpForceMultiplier: 1.5
 --- !u!114 &846521449
 MonoBehaviour:
   m_ObjectHideFlags: 0

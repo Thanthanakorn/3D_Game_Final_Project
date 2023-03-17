@@ -10,8 +10,6 @@ public class WeaponSlotManager : MonoBehaviour
     private DamageCollider _leftHandDamageCollider;
     private DamageCollider _rightHandDamageCollider;
 
-    //private WeaponItem _attackingWeapon;    
-    
     private Animator _animator;
 
     private PlayerStats _playerStats;

@@ -30087,7 +30087,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.6666666
+    m_StopTime: 1.5666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -59267,7 +59267,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.76666665
+  - time: 0.6666667
     functionName: DrainStaminaLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -59295,7 +59295,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.6666666
+  - time: 1.5666667
     functionName: DisableIsAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
