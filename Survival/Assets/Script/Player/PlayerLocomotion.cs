@@ -32,6 +32,10 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] private float rollingDistance = 3f;
     [SerializeField] private float stepBackDistance = 1f;
     [SerializeField] private float stepBackSpeed = 5f;
+    
+    public float jumpForceMultiplier = 1.5f;
+    
+
 
 
     private void Start()
@@ -81,6 +85,10 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleMovement(float delta)
     {
+        if (_playerManager.isAttacking)
+        {
+            return;
+        }
         if (_inputHandler.rollFlag)
             return;
 
@@ -134,6 +142,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleRollingAndSprinting(float delta)
     {
+        
         if (animatorHandler.anim.GetBool(IsInteracting))
             return;
 
@@ -268,6 +277,11 @@ public class PlayerLocomotion : MonoBehaviour
             }
         }
     }
+    public void ResetVelocity()
+    {
+        rigidbody.velocity = Vector3.zero;
+    }
+
     
 
     #endregion

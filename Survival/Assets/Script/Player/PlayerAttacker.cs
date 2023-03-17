@@ -15,13 +15,13 @@ public class PlayerAttacker : MonoBehaviour
 
     public void HandleLightAttack(WeaponItem weapon)
     {
-        _animatorHandler.PlayTargetAnimation(weapon.ohLightAttack1, true);
+        _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack1, true);
         lastAttack = weapon.ohLightAttack1;
     }
 
     public void HandleHeavyAttack(WeaponItem weapon)
     {
-        _animatorHandler.PlayTargetAnimation(weapon.ohHeavyAttack1, true);
+        _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack1, true);
         lastAttack = weapon.ohHeavyAttack1;
     }
 
@@ -32,21 +32,21 @@ public class PlayerAttacker : MonoBehaviour
             _animatorHandler.anim.SetBool(CanDoCombo, false);
             if (lastAttack == weapon.ohLightAttack1)
             {
-                _animatorHandler.PlayTargetAnimation(weapon.ohLightAttack2, true);
+                _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack2, true);
                 lastAttack = weapon.ohLightAttack2;
             }
             else if (lastAttack == weapon.ohLightAttack2)
             {
-                _animatorHandler.PlayTargetAnimation(weapon.ohLightAttack3, true);
+                _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack3, true);
             }
             else if (lastAttack == weapon.ohHeavyAttack1)
             {
-                _animatorHandler.PlayTargetAnimation(weapon.ohHeavyAttack2, true);
+                _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack2, true);
                 lastAttack = weapon.ohHeavyAttack2;
             }
             else if (lastAttack == weapon.ohHeavyAttack2)
             {
-                _animatorHandler.PlayTargetAnimation(weapon.ohHeavyAttack3, true);
+                _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack3, true);
             }
         }
     }

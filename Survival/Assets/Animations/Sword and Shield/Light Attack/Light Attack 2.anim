@@ -30087,7 +30087,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.5666667
+    m_StopTime: 1.6666666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -59254,7 +59254,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: EnableIsInteracting
+    functionName: EnableIsAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -59267,15 +59267,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.2
-    functionName: CloseRightHandDamageCollider
+  - time: 1
+    functionName: EnableCombo
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.2333333
-    functionName: EnableCombo
+  - time: 1.2
+    functionName: CloseRightHandDamageCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -59288,8 +59288,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.5666667
-    functionName: DisableIsInteracting
+  - time: 1.6666666
+    functionName: DisableIsAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
