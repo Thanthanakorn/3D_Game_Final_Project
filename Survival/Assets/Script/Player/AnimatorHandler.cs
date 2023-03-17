@@ -10,6 +10,7 @@ public class AnimatorHandler : MonoBehaviour
     public bool canRotate;
 
     private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
+    private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
 
     public void Initialize()
     {
@@ -84,5 +85,20 @@ public class AnimatorHandler : MonoBehaviour
         anim.applyRootMotion = isInteracting;
         anim.SetBool(IsInteracting, isInteracting);
         anim.CrossFade(targetAnim, 0.2f);
+    }
+
+    public void EnableCombo()
+    {
+        anim.SetBool(CanDoCombo, true);
+    }
+
+    public void DisableCombo()
+    {
+        anim.SetBool(CanDoCombo, false);
+    }
+
+    public void DisableIsInteracting()
+    {
+        anim.SetBool(IsInteracting, false);
     }
 }

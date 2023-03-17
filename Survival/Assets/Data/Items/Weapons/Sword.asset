@@ -18,4 +18,8 @@ MonoBehaviour:
     type: 3}
   isUnarmed: 0
   ohLightAttack1: Light Attack 1
+  ohLightAttack2: Light Attack 2
+  ohLightAttack3: Light Attack 3
   ohHeavyAttack1: Hit with handle
+  ohHeavyAttack2: Spin attack
+  ohHeavyAttack3: Jump attack
