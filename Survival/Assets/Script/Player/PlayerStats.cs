@@ -38,13 +38,16 @@ public class PlayerStats : MonoBehaviour
         healthBar.SetCurrentHealth(currentHealth);
         _animatorHandler.PlayTargetAnimation("Body Impact", true);
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !isDead)
         {
+            isDead = true;
             _animatorHandler.PlayTargetAnimation("Dead Forward", true);
             var constraints = _rigidbody.constraints;
-            constraints |= RigidbodyConstraints.FreezePositionX; // Freeze position along the y-axis
+            constraints |= RigidbodyConstraints.FreezePositionX; // Freeze position along the x-axis
             constraints |= RigidbodyConstraints.FreezePositionZ; // Freeze position along the z-axis
             _rigidbody.constraints = constraints;
+            _animatorHandler.DisableRotation();
         }
     }
+
 }

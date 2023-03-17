@@ -131,4 +131,10 @@ public class AnimatorHandler : MonoBehaviour
     {
         anim.SetBool(IsAttacking, false);
     }
+    
+    public void DisableRotation()
+    {
+        canRotate = false;
+    }
+
 }
