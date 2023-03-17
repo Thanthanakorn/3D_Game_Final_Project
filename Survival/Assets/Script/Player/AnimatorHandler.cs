@@ -10,6 +10,7 @@ public class AnimatorHandler : MonoBehaviour
     public bool canRotate;
 
     private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
+    private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
     private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
 
     public void Initialize()
@@ -70,8 +71,9 @@ public class AnimatorHandler : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        if (_playerManager.isInteracting == false)
+        if (_playerManager.isAttacking == false)
             return;
+    
         var delta = Time.deltaTime;
         _playerLocomotion.rigidbody.drag = 0;
         var deltaPosition = anim.deltaPosition;
@@ -80,11 +82,25 @@ public class AnimatorHandler : MonoBehaviour
         _playerLocomotion.rigidbody.velocity = velocity;
     }
 
+
     public void PlayTargetAnimation(string targetAnim, bool isInteracting)
     {
         anim.applyRootMotion = isInteracting;
         anim.SetBool(IsInteracting, isInteracting);
         anim.CrossFade(targetAnim, 0.2f);
+        
+    }
+    
+    public void PlayTargetAttackingAnimation(string targetAnim, bool isAttacking)
+    {
+        anim.applyRootMotion = isAttacking;
+        anim.SetBool(IsAttacking, isAttacking);
+        anim.CrossFade(targetAnim, 0.2f);
+        
+        if (isAttacking)
+        {
+            _playerLocomotion.ResetVelocity();
+        }
     }
 
     public void EnableCombo()
@@ -105,5 +121,15 @@ public class AnimatorHandler : MonoBehaviour
     public void DisableIsInteracting()
     {
         anim.SetBool(IsInteracting, false);
+    }
+    
+    public void EnableIsAttacking()
+    {
+        anim.SetBool(IsAttacking, true);
+    }
+    
+    public void DisableIsAttacking()
+    {
+        anim.SetBool(IsAttacking, false);
     }
 }
