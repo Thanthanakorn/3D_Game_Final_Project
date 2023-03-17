@@ -7,6 +7,7 @@ public class PlayerLocomotion : MonoBehaviour
     private InputHandler _inputHandler;
     private PlayerManager _playerManager;
     private PlayerStats _playerStats;
+    private Animator _anim;
     public Vector3 moveDirection;
     
 
@@ -138,6 +139,7 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (_inputHandler.rollFlag)
         {
+            
             moveDirection = _cameraObject.forward * _inputHandler.vertical;
             moveDirection += _cameraObject.right * _inputHandler.horizontal;
 
@@ -165,8 +167,10 @@ public class PlayerLocomotion : MonoBehaviour
                 StartCoroutine(MoveOverSpeed(gameObject, targetPosition, stepBackSpeed));
             }
         }
+
+        
     }
-    
+
     IEnumerator MoveOverSpeed(GameObject objectToMove, Vector3 end, float speed)
     {
         float startTime = Time.time;

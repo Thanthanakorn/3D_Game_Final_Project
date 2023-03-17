@@ -97,6 +97,11 @@ public class AnimatorHandler : MonoBehaviour
         anim.SetBool(CanDoCombo, false);
     }
 
+    public void EnableIsInteracting()
+    {
+        anim.SetBool(IsInteracting,true);
+    }
+    
     public void DisableIsInteracting()
     {
         anim.SetBool(IsInteracting, false);
