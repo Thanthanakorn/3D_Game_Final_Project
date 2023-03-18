@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
     private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
     private static readonly int IsInAir = Animator.StringToHash("isInAir");
+    private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class PlayerManager : MonoBehaviour
         isAttacking = _anim.GetBool(IsAttacking);
         canDoCombo = _anim.GetBool(CanDoCombo);
         _anim.SetBool(IsInAir, isInAir);
+        _anim.SetBool(IsGrounded,isGrounded);
         _inputHandler.TickInput(delta);
         _playerLocomotion.HandleMovement(delta);
         _playerLocomotion.HandleRollingAndSprinting(delta);

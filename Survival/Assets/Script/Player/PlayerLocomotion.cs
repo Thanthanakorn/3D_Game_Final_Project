@@ -173,7 +173,7 @@ public class PlayerLocomotion : MonoBehaviour
                 Vector3 targetPosition = myTransform.position + moveDirection;
                 targetPosition = CheckForCollisions(targetPosition);
 
-                animatorHandler.PlayTargetAnimation("Backstep", true);
+                animatorHandler.PlayTargetAnimation("Step Back", true);
                 StartCoroutine(MoveOverSpeed(gameObject, targetPosition, stepBackSpeed));
             }
         }
