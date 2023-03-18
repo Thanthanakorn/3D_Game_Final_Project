@@ -80,6 +80,10 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleMovement(float delta)
     {
+        if (_playerManager.isInAir)
+        {
+            return;
+        }
         if (_playerManager.isAttacking)
         {
             return;
@@ -137,19 +141,16 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleRollingAndSprinting(float delta)
     {
-        
         if (animatorHandler.anim.GetBool(IsInteracting))
             return;
 
         if (_inputHandler.rollFlag)
         {
-            
             moveDirection = _cameraObject.forward * _inputHandler.vertical;
             moveDirection += _cameraObject.right * _inputHandler.horizontal;
 
             if (_inputHandler.moveAmount > 0)
             {
-                animatorHandler.PlayTargetAnimation("Rolling", true);
                 moveDirection.y = 0;
                 moveDirection.Normalize();
                 moveDirection *= rollingDistance;
@@ -157,23 +158,44 @@ public class PlayerLocomotion : MonoBehaviour
                 myTransform.rotation = rollRotation;
 
                 Vector3 targetPosition = myTransform.position + moveDirection;
+                targetPosition = CheckForCollisions(targetPosition);
+
+                animatorHandler.PlayTargetAnimation("Rolling", true);
                 StartCoroutine(MoveOverSpeed(gameObject, targetPosition, rollingSpeed));
             }
             else
             {
-                animatorHandler.PlayTargetAnimation("Backstep", true);
                 moveDirection = -myTransform.forward;
                 moveDirection.y = 0;
                 moveDirection.Normalize();
                 moveDirection *= stepBackDistance;
 
                 Vector3 targetPosition = myTransform.position + moveDirection;
+                targetPosition = CheckForCollisions(targetPosition);
+
+                animatorHandler.PlayTargetAnimation("Backstep", true);
                 StartCoroutine(MoveOverSpeed(gameObject, targetPosition, stepBackSpeed));
             }
         }
-
-        
     }
+
+
+    private Vector3 CheckForCollisions(Vector3 targetPosition)
+        {
+            RaycastHit hit;
+            Vector3 origin = myTransform.position + Vector3.up * 0.5f; // Raise the raycast origin slightly above the ground
+
+            if (Physics.Raycast(origin, targetPosition - origin, out hit, rollingDistance))
+            {
+                if (!hit.collider.isTrigger)
+                {
+                    float adjustedDistance = Vector3.Distance(myTransform.position, hit.point) - 0.5f; // Subtract a small offset to prevent overlapping with the object
+                    targetPosition = myTransform.position + (targetPosition - myTransform.position).normalized * adjustedDistance;
+                }
+            }
+
+            return targetPosition;
+        }
 
     IEnumerator MoveOverSpeed(GameObject objectToMove, Vector3 end, float speed)
     {

@@ -764,7 +764,7 @@ MonoBehaviour:
   rollingSpeed: 1
   sprintSpeed: 90
   fallingSpeed: 200
-  rollingDistance: 20
+  rollingDistance: 30
   stepBackDistance: 10
   stepBackSpeed: 5
 --- !u!114 &846521449
@@ -830,7 +830,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846521446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 17.55, y: 23.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
