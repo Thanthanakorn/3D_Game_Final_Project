@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 public class EnemyLocomotionManager : MonoBehaviour
 {
@@ -57,6 +55,8 @@ public class EnemyLocomotionManager : MonoBehaviour
 
     public void HandleMoveToTarget()
     {
+        if (_enemyManager.isPerformingAction) return;
+        
         var targetDirection = currentTarget.transform.position - transform.position;
         distanceFromTarget = Vector3.Distance(currentTarget.transform.position, transform.position);
         var viewAbleAngle = Vector3.Angle(targetDirection, transform.forward);
