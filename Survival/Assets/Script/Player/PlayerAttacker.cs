@@ -33,7 +33,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (_inputHandler.comboFlag)
         {
-            _animatorHandler.anim.SetBool(CanDoCombo, false);
+            ((AnimatorManager)_animatorHandler).animator.SetBool(CanDoCombo, false);
             if (lastAttack == weapon.ohLightAttack1)
             {
                 _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack2, true);

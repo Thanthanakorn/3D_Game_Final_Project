@@ -191,7 +191,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleRollingAndSprinting(float delta)
     {
-        if (animatorHandler.anim.GetBool(IsInteracting))
+        if (((AnimatorManager)animatorHandler).animator.GetBool(IsInteracting))
             return;
 
         if (_inputHandler.rollFlag)

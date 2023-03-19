@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockOnTransform: {fileID: 6143471848442218715}
+  isPerformingAction: 0
   detectionRadius: 20
   maximumDetectionAngle: 50
   minimumDetectionAngle: -50
@@ -147,10 +148,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febac503d73474f509ef96f67f300e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyRigidbody: {fileID: 0}
   currentTarget: {fileID: 0}
   detectionLayer:
     serializedVersion: 2
     m_Bits: 512
+  distanceFromTarget: 0
+  stoppingDistance: 1
+  rotationSpeed: 20
 --- !u!1001 &6143471847571643250
 PrefabInstance:
   m_ObjectHideFlags: 0

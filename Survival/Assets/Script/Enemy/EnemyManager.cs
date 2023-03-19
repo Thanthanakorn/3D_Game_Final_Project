@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManager : CharacterManager
 {
     private EnemyLocomotionManager _enemyLocomotionManager;
-    private bool _isPerformingAction;
+    public bool isPerformingAction;
     
     [Header("Enemy Settings")]
     public float detectionRadius = 20;
@@ -23,11 +20,21 @@ public class EnemyManager : CharacterManager
         HandleCurrentAction();
     }
 
+    private void FixedUpdate()
+    {
+        HandleCurrentAction();
+        
+    }
+
     private void HandleCurrentAction()
     {
         if (_enemyLocomotionManager.currentTarget == null)
         {
             _enemyLocomotionManager.HandleDetection();
+        }
+        else
+        {
+            _enemyLocomotionManager.HandleMoveToTarget();
         }
     }
 }
