@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerLocomotion : MonoBehaviour
 {
+    private CameraHandler _cameraHandler;
     private Transform _cameraObject;
     private InputHandler _inputHandler;
     private PlayerManager _playerManager;
@@ -32,7 +33,12 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] private float rollingDistance = 3f;
     [SerializeField] private float stepBackDistance = 1f;
     [SerializeField] private float stepBackSpeed = 5f;
-    
+
+    private void Awake()
+    {
+        _cameraHandler = FindObjectOfType<CameraHandler>();
+    }
+
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -59,23 +65,59 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if (_playerStats.isDead)
             return;
-        var targetDir = _cameraObject.forward * _inputHandler.vertical;
-        targetDir += _cameraObject.right * _inputHandler.horizontal;
-        
-        targetDir.Normalize();
-        targetDir.y = 0;
-    
-        if (targetDir == Vector3.zero)
+
+        if (_inputHandler.lockOnFlag)
         {
-            targetDir = myTransform.forward;
+            if (_inputHandler.sprintFlag || _inputHandler.rollFlag)
+            {
+                var targetDirection = Vector3.zero;
+                targetDirection = _cameraHandler.cameraTransform.forward * _inputHandler.vertical;
+                targetDirection += _cameraHandler.cameraTransform.right * _inputHandler.horizontal;
+                targetDirection.Normalize();
+                targetDirection.y = 0;
+
+                if (targetDirection == Vector3.zero)
+                {
+                    targetDirection = transform.forward;
+                }
+
+                Quaternion tr = Quaternion.LookRotation(targetDirection);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+
+                transform.rotation = targetRotation;
+            }
+            else
+            {
+                var rotationDirection = moveDirection;
+                rotationDirection = _cameraHandler.currentLockOnTarget.transform.position - transform.position;
+                rotationDirection.y = 0;
+                rotationDirection.Normalize();
+                Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+                transform.rotation = targetRotation;
+            }
+            
         }
+        else
+        {
+            var targetDir = _cameraObject.forward * _inputHandler.vertical;
+            targetDir += _cameraObject.right * _inputHandler.horizontal;
+        
+            targetDir.Normalize();
+            targetDir.y = 0;
     
-        float rs = rotationSpeed;
+            if (targetDir == Vector3.zero)
+            {
+                targetDir = myTransform.forward;
+            }
     
-        Quaternion tr = Quaternion.LookRotation(targetDir);
-        Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+            float rs = rotationSpeed;
     
-        myTransform.rotation = targetRotation;
+            Quaternion tr = Quaternion.LookRotation(targetDir);
+            Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+    
+            myTransform.rotation = targetRotation;
+        }
     }
 
     public void HandleMovement(float delta)
@@ -130,7 +172,15 @@ public class PlayerLocomotion : MonoBehaviour
         var projectedVelocity = Vector3.ProjectOnPlane(moveDirection, _normalVector);
         rigidbody.velocity = projectedVelocity;
 
-        animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0, _playerManager.isSprinting);
+        if (_inputHandler.lockOnFlag && _inputHandler.sprintFlag == false)
+        {
+            animatorHandler.UpdateAnimatorValues(_inputHandler.vertical, _inputHandler.horizontal,
+                _playerManager.isSprinting);
+        }
+        else
+        {
+            animatorHandler.UpdateAnimatorValues(_inputHandler.moveAmount, 0, _playerManager.isSprinting);
+        }
         
 
         if (animatorHandler.canRotate)
@@ -178,8 +228,7 @@ public class PlayerLocomotion : MonoBehaviour
             }
         }
     }
-
-
+    
     private Vector3 CheckForCollisions(Vector3 targetPosition)
         {
             RaycastHit hit;
@@ -189,8 +238,9 @@ public class PlayerLocomotion : MonoBehaviour
             {
                 if (!hit.collider.isTrigger)
                 {
-                    float adjustedDistance = Vector3.Distance(myTransform.position, hit.point) - 0.5f; // Subtract a small offset to prevent overlapping with the object
-                    targetPosition = myTransform.position + (targetPosition - myTransform.position).normalized * adjustedDistance;
+                    var position = myTransform.position;
+                    float adjustedDistance = Vector3.Distance(position, hit.point) - 0.5f; // Subtract a small offset to prevent overlapping with the object
+                    targetPosition = position + (targetPosition - position).normalized * adjustedDistance;
                 }
             }
 

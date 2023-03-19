@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
@@ -11,12 +10,18 @@ public class InputHandler : MonoBehaviour
 
     public bool shiftInput;
     public bool ctrlInput;
+    public bool rbInput;
+    public bool rtInput; 
+    public bool jumpInput;
+    public bool lockOnInput;
+    public bool rightStickRightInput;
+    public bool rightStickLeftInput;
+    
     public bool rollFlag;
     public bool sprintFlag;
     public bool comboFlag;
-    public bool rbInput;
-    public bool rtInput;
-    public bool jumpInput;
+    public bool lockOnFlag;
+    
 
     private PlayerControls _inputActions;
     private PlayerAttacker _playerAttacker;
@@ -32,6 +37,7 @@ public class InputHandler : MonoBehaviour
         _playerAttacker = GetComponent<PlayerAttacker>();
         _playerInventory = GetComponent<PlayerInventory>();
         _playerManager = GetComponent<PlayerManager>();
+        _cameraHandler = FindObjectOfType<CameraHandler>();
     }
 
     public void OnEnable()
@@ -39,9 +45,14 @@ public class InputHandler : MonoBehaviour
         if (_inputActions == null)
         {
             _inputActions = new PlayerControls();
-            _inputActions.PlayerMovement.Move.performed +=
-                inputActions => _movementInput = inputActions.ReadValue<Vector2>();
-            _inputActions.PlayerMovement.Camera.performed += i => _cameraInput = i.ReadValue<Vector2>();
+            _inputActions.PlayerMovement.Move.performed += _ => _movementInput = _.ReadValue<Vector2>();
+            _inputActions.PlayerMovement.Camera.performed += _ => _cameraInput = _.ReadValue<Vector2>();
+            _inputActions.PlayerMovement.LockOnTargetRight.performed += _ => rightStickRightInput = true;
+            _inputActions.PlayerMovement.LockOnTargetLeft.performed += _ => rightStickLeftInput = true;
+            _inputActions.PlayerActions.LightAttack.performed += _ => rbInput = true;
+            _inputActions.PlayerActions.HeavyAttack.performed += _ => rtInput = true;
+            _inputActions.PlayerActions.Jump.performed += _ => jumpInput = true;
+            _inputActions.PlayerActions.LockOn.performed += _ => lockOnInput = true;
         }
 
         _inputActions.Enable();
@@ -52,15 +63,15 @@ public class InputHandler : MonoBehaviour
         _inputActions.Disable();
     }
 
-    public void TickInput(float delta)
+    public void TickInput()
     {
-        MoveInput(delta);
-        HandleRollingAndSprintingInput(delta);
-        HandleAttackInput(delta);
-        HandleJumpInput();
+        HandleMoveInput();
+        HandleRollingAndSprintingInput();
+        HandleAttackInput();
+        HandleLockOnInput();
     }
 
-    private void MoveInput(float delta)
+    private void HandleMoveInput()
     {
         horizontal = _movementInput.x;
         vertical = _movementInput.y;
@@ -69,20 +80,16 @@ public class InputHandler : MonoBehaviour
         mouseY = _cameraInput.y;
     }
 
-    private void HandleRollingAndSprintingInput(float delta)
+    private void HandleRollingAndSprintingInput()
     {
         ctrlInput = _inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
         shiftInput = _inputActions.PlayerActions.Sprint.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
-
         rollFlag = ctrlInput;
         sprintFlag = shiftInput;
     }
 
-    private void HandleAttackInput(float delta)
+    private void HandleAttackInput()
     {
-        _inputActions.PlayerActions.RB.performed += _ => rbInput = true;
-        _inputActions.PlayerActions.RT.performed += _ => rtInput = true;
-
         if (rbInput)
         {
             if (_playerManager.canDoCombo)
@@ -116,8 +123,47 @@ public class InputHandler : MonoBehaviour
         }
     }
     
-    private void HandleJumpInput()
+    private void HandleLockOnInput()
     {
-        _inputActions.PlayerActions.Jump.performed += i => jumpInput = true;
+        if (lockOnInput && lockOnFlag == false)
+        {
+            lockOnInput = false;
+            _cameraHandler.HandleLockOn(); 
+            if (_cameraHandler.nearestLockOnTarget != null)
+            {
+                _cameraHandler.currentLockOnTarget = _cameraHandler.nearestLockOnTarget;
+                lockOnFlag = true;
+            }
+        }
+        else if (lockOnInput && lockOnFlag)
+        {
+            lockOnFlag = false;
+            lockOnInput = false;
+            _cameraHandler.ClearLockOnTargets();
+        }
+
+        if (lockOnFlag && rightStickLeftInput)
+        {
+            _cameraHandler.ClearLockOnSideTargets();
+            rightStickLeftInput = false;
+            _cameraHandler.HandleLockOn();
+            if (_cameraHandler.leftLockTarget != null)
+            {
+                _cameraHandler.currentLockOnTarget = _cameraHandler.leftLockTarget;
+            }
+        }
+
+        if (lockOnFlag && rightStickRightInput)
+        {
+            _cameraHandler.ClearLockOnSideTargets();
+            rightStickRightInput = false;
+            _cameraHandler.HandleLockOn();
+            if (_cameraHandler.rightLockTarget != null)
+            {
+                _cameraHandler.currentLockOnTarget = _cameraHandler.rightLockTarget;
+            }
+        }
+
+        _cameraHandler.SetCameraHeight();
     }
 }

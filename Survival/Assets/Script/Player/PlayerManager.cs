@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : CharacterManager
 {
     private InputHandler _inputHandler;
     private Animator _anim;
@@ -38,36 +38,36 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         float delta = Time.deltaTime;
-        
         isInteracting = _anim.GetBool(IsInteracting);
         isAttacking = _anim.GetBool(IsAttacking);
         canDoCombo = _anim.GetBool(CanDoCombo);
         _anim.SetBool(IsInAir, isInAir);
-        _anim.SetBool(IsGrounded,isGrounded);
-        _inputHandler.TickInput(delta);
-        _playerLocomotion.HandleMovement(delta);
+        _inputHandler.TickInput();
         _playerLocomotion.HandleRollingAndSprinting(delta);
-        _playerLocomotion.HandleFalling(delta, _playerLocomotion.moveDirection);
         _playerLocomotion.HandleJumping();
+        _anim.SetBool(IsGrounded,isGrounded);
         
     }
     
     private void FixedUpdate()
     {
         var delta = Time.fixedDeltaTime;
-
-        if (_cameraHandler == null) return;
-        _cameraHandler.FollowTarget(delta);
-        _cameraHandler.HandleCameraRotation(delta, _inputHandler.mouseX, _inputHandler.mouseY);
+        _playerLocomotion.HandleMovement(delta);
+        _playerLocomotion.HandleFalling(delta, _playerLocomotion.moveDirection);
     }
 
     private void LateUpdate()
     {
         _inputHandler.rollFlag = false;
-        _inputHandler.sprintFlag = false;
         _inputHandler.rtInput = false;
         _inputHandler.rbInput = false;
         _inputHandler.jumpInput = false;
+        
+        var delta = Time.deltaTime;
+        
+        if (_cameraHandler == null) return;
+        _cameraHandler.FollowTarget(delta);
+        _cameraHandler.HandleCameraRotation(delta, _inputHandler.mouseX, _inputHandler.mouseY);
 
         if (isInAir)
         {

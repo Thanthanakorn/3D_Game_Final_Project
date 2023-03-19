@@ -22,6 +22,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Lock On Target Left",
+                    "type": "Button",
+                    "id": "08db1123-ee9f-46ca-acb2-f261475dcebf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lock On Target Right",
+                    "type": "Button",
+                    "id": "89646906-e5ad-4b34-bc00-670afe21685e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -112,6 +130,50 @@
                     "action": "Camera",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0b752a7-6971-43cb-accc-60629ee25eea",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On Target Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6152769d-502b-47ff-8f9c-bdc94c4c57f0",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On Target Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bdc55af1-4069-450e-a26c-a52a74a2993d",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On Target Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1951de4b-1bd6-4917-a68a-6fa3d5bc6e65",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On Target Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -138,7 +200,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RB",
+                    "name": "Light Attack",
                     "type": "Button",
                     "id": "adaf41f3-2cb1-4ab0-8f5b-c58d8af1c51a",
                     "expectedControlType": "Button",
@@ -147,7 +209,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RT",
+                    "name": "Heavy Attack",
                     "type": "Button",
                     "id": "6d26e815-874a-4c48-91d6-aa24709148cb",
                     "expectedControlType": "Button",
@@ -159,6 +221,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "499504dc-21e1-4eb9-af12-6bd3afe01854",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lock On",
+                    "type": "Button",
+                    "id": "e3238952-b70e-4710-8631-ad58c0f3970a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -217,7 +288,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RB",
+                    "action": "Light Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -228,7 +299,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RB",
+                    "action": "Light Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -239,7 +310,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RT",
+                    "action": "Heavy Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -250,7 +321,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RT",
+                    "action": "Heavy Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -273,6 +344,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32cd0a48-8c77-4c39-9461-0dae0ba22db2",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee0e0004-41c5-4f1f-94df-e6e7a106790d",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
