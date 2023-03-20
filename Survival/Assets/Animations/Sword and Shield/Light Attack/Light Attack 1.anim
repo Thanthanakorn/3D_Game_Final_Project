@@ -53393,7 +53393,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: OpenRightDamageCollider
+    functionName: OpenDamageCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -53414,7 +53414,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.9
-    functionName: CloseRightHandDamageCollider
+    functionName: CloseDamageCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

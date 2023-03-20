@@ -23,14 +23,12 @@ public class AttackState : State
         
         if (currentAttack != null)
         {
-            //If we are too close to the enemy to perform current attack, get a new attack
             if (distanceFromTarget < currentAttack.minimumDistanceNeededToAttack)
             {
                 return this;
             }
             if (distanceFromTarget < currentAttack.maximumDistanceNeededToAttack)
             {
-                //If out enemy is within uor attacks viewable angle, we attack
                 if (viewAbleAngle <= currentAttack.maximumAttackAngle &&
                     viewAbleAngle >= currentAttack.minimumAttackAngle)
                 {

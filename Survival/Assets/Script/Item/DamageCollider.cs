@@ -26,15 +26,6 @@ public class DamageCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            PlayerStats playerStats = collision.GetComponent<PlayerStats>();
-
-            if (playerStats != null)
-            {
-                playerStats.TakeDamage(currentWeaponDamage);
-            }
-        }
 
         if (collision.CompareTag("Enemy"))
         {
@@ -43,6 +34,15 @@ public class DamageCollider : MonoBehaviour
             if (enemyStats != null)
             {
                 enemyStats.TakeDamage(currentWeaponDamage);
+            }
+        }
+
+        if (collision.CompareTag("Player"))
+        {
+            PlayerStats playerStats = collision.GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                playerStats.TakeDamage(currentWeaponDamage);
             }
         }
     }

@@ -35,6 +35,7 @@ public class WeaponSlotManager : MonoBehaviour
     {
         if (isLeft)
         {
+            _leftHandSlot.currentWeapon = weaponItem;
             _leftHandSlot.LoadWeaponModel(weaponItem);
             LoadLeftWeaponDamageCollider();
             
@@ -47,6 +48,7 @@ public class WeaponSlotManager : MonoBehaviour
         }
         else
         {
+            _rightHandSlot.currentWeapon = weaponItem;
             _rightHandSlot.LoadWeaponModel(weaponItem);
             LoadRightWeaponDamageCollider();
             if (weaponItem != null)
@@ -71,26 +73,16 @@ public class WeaponSlotManager : MonoBehaviour
     }
 
 
-    public void OpenRightDamageCollider()
+    public void OpenDamageCollider()
     {
         _rightHandDamageCollider.EnableDamageCollider();
     }
 
-    public void CloseRightHandDamageCollider()
+    public void CloseDamageCollider()
     {
         _rightHandDamageCollider.DisableDamageCollider();
     }
 
-    public void OpenLeftDamageCollider()
-    {
-        _leftHandDamageCollider.EnableDamageCollider();
-    }
-
-    public void CloseLeftDamageCollider()
-    {
-        _leftHandDamageCollider.DisableDamageCollider();
-    }
-    
     #endregion
     
     #region Handle Weapon's Stamina Drainage

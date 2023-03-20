@@ -6,11 +6,11 @@ public class EnemyStats : CharacterStats
 {
     private Rigidbody _rigidbody;
     public HealthBar healthBar;
-    private AnimatorHandler _animatorHandler;
+    private EnemyAnimatorManager _animatorHandler;
 
     private void Awake()
     {
-        _animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        _animatorHandler = GetComponentInChildren<EnemyAnimatorManager>();
         _rigidbody = GetComponent<Rigidbody>();
         isDead = false;
     }
@@ -31,12 +31,12 @@ public class EnemyStats : CharacterStats
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        healthBar.SetCurrentHealth(currentHealth);
-        _animatorHandler.PlayTargetAnimation("Body Impact", true);
+        //healthBar.SetCurrentHealth(currentHealth);
+        //_animatorHandler.PlayTargetAnimation("Body Impact", false);
 
         if (currentHealth <= 0)
         {
-            _animatorHandler.PlayTargetAnimation("Dead Forward", true);
+            _animatorHandler.PlayTargetAnimation("Dead_side", true);
             var constraints = _rigidbody.constraints;
             constraints |= RigidbodyConstraints.FreezePositionX; // Freeze position along the y-axis
             constraints |= RigidbodyConstraints.FreezePositionZ; // Freeze position along the z-axis

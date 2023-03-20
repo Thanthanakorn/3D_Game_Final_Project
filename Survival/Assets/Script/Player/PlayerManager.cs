@@ -46,7 +46,6 @@ public class PlayerManager : CharacterManager
         _playerLocomotion.HandleRollingAndSprinting(delta);
         _playerLocomotion.HandleJumping();
         _anim.SetBool(IsGrounded,isGrounded);
-        
     }
     
     private void FixedUpdate()

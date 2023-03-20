@@ -3,6 +3,7 @@ using UnityEngine;
 public class WeaponHolderSlot : MonoBehaviour
 {
     public Transform parentOverride;
+    public WeaponItem currentWeapon;
     public bool isLeftHandSlot;
     public bool isRightHandSlot;
 

@@ -11,7 +11,9 @@ public class EnemyManager : CharacterManager
     public NavMeshAgent navMeshAgent;
     public Rigidbody enemyRigidbody;
     public bool isPerformingAction;
-
+    private EnemyWeaponSlotManager _weaponSlotManager;
+    public WeaponItem rightWeapon;
+    
     [Header("Enemy Settings")] public float rotationSpeed = 20;
     public float maximumAttackRange = 8f;
 
@@ -28,12 +30,14 @@ public class EnemyManager : CharacterManager
         _enemyStats = GetComponent<EnemyStats>();
         enemyRigidbody = GetComponent<Rigidbody>();
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+        _weaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
     }
 
     private void Start()
     {
         enemyRigidbody.isKinematic = false;
         navMeshAgent.enabled = false;
+        _weaponSlotManager.LoadWeaponOnSlot(rightWeapon);
     }
 
     private void Update()
