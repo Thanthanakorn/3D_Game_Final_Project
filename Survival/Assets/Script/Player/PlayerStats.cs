@@ -8,9 +8,13 @@ public class PlayerStats : CharacterStats
     public StaminaBar staminaBar;
     private AnimatorHandler _animatorHandler;
     private CapsuleCollider _collider;
+    private PlayerManager _playerManager;
+    public float staminaRegenerationAmount = 25;
+    public float staminaRegenerationTimer = 0;
 
     private void Awake()
     {
+        _playerManager = GetComponent<PlayerManager>();
         healthBar = FindObjectOfType<HealthBar>();
         staminaBar = FindObjectOfType<StaminaBar>();
         _animatorHandler = GetComponentInChildren<AnimatorHandler>();
@@ -36,7 +40,7 @@ public class PlayerStats : CharacterStats
         return maxHealth;
     }
 
-    private int SetMaxStaminaFromStaminaLevel()
+    private float SetMaxStaminaFromStaminaLevel()
     {
         maxStamina = staminaLevel * 10;
         return maxStamina;
@@ -44,6 +48,7 @@ public class PlayerStats : CharacterStats
 
     public void TakeDamage(int damage)
     {
+        if (_playerManager.isInvulnerable) return;
         if (isDead) return;
         currentHealth -= damage;
         healthBar.SetCurrentHealth(currentHealth);
@@ -65,7 +70,27 @@ public class PlayerStats : CharacterStats
 
     public void TakeStaminaDamage(int damage)
     {
+        if (currentStamina <= 0)
+            currentStamina = 0;
         currentStamina -= damage;
         staminaBar.SetCurrentStamina(currentStamina);
+    }
+
+    public void RegenerateStamina()
+    {
+
+        if (_playerManager.isInteracting || _playerManager.isAttacking || _playerManager.isSprinting)
+        {
+            staminaRegenerationTimer = 0;
+        }
+        else
+        {
+            staminaRegenerationTimer += Time.deltaTime;
+            if (currentStamina < maxStamina && staminaRegenerationTimer > 1f)
+            {
+                currentStamina += staminaRegenerationAmount * Time.deltaTime;
+                staminaBar.SetCurrentStamina(Mathf.RoundToInt(currentStamina));
+            }
+        }
     }
 }

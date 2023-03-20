@@ -10,13 +10,13 @@ public class StaminaBar : MonoBehaviour
         slider = GetComponent<Slider>();
     }
 
-    public void SetMaxStamina(int maxHealth)
+    public void SetMaxStamina(float maxHealth)
     {
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
     }
 
-    public void SetCurrentStamina(int currentHealth)
+    public void SetCurrentStamina(float currentHealth)
     {
         slider.value = currentHealth;
     }

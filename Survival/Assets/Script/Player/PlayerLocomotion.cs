@@ -10,7 +10,8 @@ public class PlayerLocomotion : MonoBehaviour
     private PlayerStats _playerStats;
     private Animator _anim;
     public Vector3 moveDirection;
-    
+    public int sprintStaminaConsume = 1;
+    public int rollStaminaConsume = 25;
 
     [HideInInspector] public Transform myTransform;
     [HideInInspector] public AnimatorHandler animatorHandler;
@@ -147,9 +148,16 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (_inputHandler.sprintFlag && _inputHandler.moveAmount > 0.5)
         {
-            speed = sprintSpeed;
+            if (_playerStats.currentStamina > 0)
+            {
+                speed = sprintSpeed;
+            }
+            else
+            {
+                speed = sprintSpeed - 55;
+            }
             _playerManager.isSprinting = true;
-
+            _playerStats.TakeStaminaDamage(sprintStaminaConsume);
             // Reduce the horizontal speed factor while sprinting (e.g., multiply by 0.5)
             float horizontalSpeedFactor = 0.5f;
             moveDirection.x *= horizontalSpeedFactor;
@@ -193,13 +201,14 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleRollingAndSprinting(float delta)
     {
-        if (_playerStats.isDead) return;
+        if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
         
         if (((AnimatorManager)animatorHandler).animator.GetBool(IsInteracting))
             return;
-
+        
         if (_inputHandler.rollFlag)
         {
+            _playerStats.TakeStaminaDamage(rollStaminaConsume);
             moveDirection = _cameraObject.forward * _inputHandler.vertical;
             moveDirection += _cameraObject.right * _inputHandler.horizontal;
 

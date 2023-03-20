@@ -1210,6 +1210,7 @@ MonoBehaviour:
   isInAir: 0
   isGrounded: 0
   canDoCombo: 0
+  isInvulnerable: 0
 --- !u!114 &846521448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1363,6 +1364,8 @@ MonoBehaviour:
   currentStamina: 0
   healthBar: {fileID: 1618180284}
   staminaBar: {fileID: 2023015622}
+  staminaRegenerationAmount: 25
+  staminaRegenerationTimer: 0
 --- !u!1 &868796610 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d3a119a2df61b2942b136067d8e96e4f,

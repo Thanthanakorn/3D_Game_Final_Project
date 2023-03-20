@@ -6,6 +6,7 @@ public class PlayerManager : CharacterManager
     private Animator _anim;
     private CameraHandler _cameraHandler;
     private PlayerLocomotion _playerLocomotion;
+    private PlayerStats _playerStats;
     
     
     public bool isInteracting;
@@ -16,12 +17,14 @@ public class PlayerManager : CharacterManager
     public bool isInAir;
     public bool isGrounded;
     public bool canDoCombo;
+    public bool isInvulnerable;
 
     private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
     private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
     private static readonly int IsInAir = Animator.StringToHash("isInAir");
     private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
+    private static readonly int IsInvulnerable = Animator.StringToHash("isInvulnerable");
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class PlayerManager : CharacterManager
         _inputHandler = GetComponent<InputHandler>();
         _anim = GetComponentInChildren<Animator>();
         _playerLocomotion = GetComponent<PlayerLocomotion>();
+        _playerStats = GetComponent<PlayerStats>();
     }
 
     private void Update()
@@ -42,10 +46,12 @@ public class PlayerManager : CharacterManager
         isAttacking = _anim.GetBool(IsAttacking);
         canDoCombo = _anim.GetBool(CanDoCombo);
         _anim.SetBool(IsInAir, isInAir);
+        _anim.GetBool(IsInvulnerable);
         _inputHandler.TickInput();
         _playerLocomotion.HandleRollingAndSprinting(delta);
         _playerLocomotion.HandleJumping();
         _anim.SetBool(IsGrounded,isGrounded);
+        _playerStats.RegenerateStamina();
     }
     
     private void FixedUpdate()

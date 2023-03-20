@@ -5,6 +5,7 @@ public class PlayerAttacker : MonoBehaviour
     private AnimatorHandler _animatorHandler;
     private InputHandler _inputHandler;
     private WeaponSlotManager _weaponSlotManager;
+    private PlayerStats _playerStats;
     public string lastAttack;
     private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
 
@@ -13,10 +14,12 @@ public class PlayerAttacker : MonoBehaviour
         _animatorHandler = GetComponentInChildren< AnimatorHandler>();
         _weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         _inputHandler = GetComponent<InputHandler>();
+        _playerStats = GetComponent<PlayerStats>();
     }
 
     public void HandleLightAttack(WeaponItem weapon)
     {
+        if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack1, true);
         lastAttack = weapon.ohLightAttack1;
@@ -24,6 +27,7 @@ public class PlayerAttacker : MonoBehaviour
 
     public void HandleHeavyAttack(WeaponItem weapon)
     {
+        if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack1, true);
         lastAttack = weapon.ohHeavyAttack1;
@@ -33,6 +37,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (_inputHandler.comboFlag)
         {
+            if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
             ((AnimatorManager)_animatorHandler).animator.SetBool(CanDoCombo, false);
             if (lastAttack == weapon.ohLightAttack1)
             {

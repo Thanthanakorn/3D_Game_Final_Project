@@ -28,6 +28,7 @@ public class InputHandler : MonoBehaviour
     private CameraHandler _cameraHandler;
     private PlayerInventory _playerInventory;
     private PlayerManager _playerManager;
+    private PlayerStats _playerStats;
 
     private Vector2 _movementInput;
     private Vector2 _cameraInput;
@@ -37,6 +38,7 @@ public class InputHandler : MonoBehaviour
         _playerAttacker = GetComponent<PlayerAttacker>();
         _playerInventory = GetComponent<PlayerInventory>();
         _playerManager = GetComponent<PlayerManager>();
+        _playerStats = GetComponent<PlayerStats>();
         _cameraHandler = FindObjectOfType<CameraHandler>();
     }
 

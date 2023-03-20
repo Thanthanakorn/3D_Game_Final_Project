@@ -11,6 +11,7 @@ public class AnimatorHandler : AnimatorManager
     private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
     private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
+    private static readonly int IsInvulnerable = Animator.StringToHash("isInvulnerable");
 
     public void Initialize()
     {
@@ -121,5 +122,15 @@ public class AnimatorHandler : AnimatorManager
     public void DisableIsAttacking()
     {
         animator.SetBool(IsAttacking, false);
+    }
+
+    public void EnableIsInvulnerable()
+    {
+        animator.SetBool(IsInvulnerable, true);
+    }
+
+    public void DisableIsInvulnerable()
+    {
+        animator.SetBool(IsInvulnerable, false);
     }
 }
