@@ -7,15 +7,19 @@ public class PursueTargetState : State
 
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) 
     { 
-        if (enemyManager.isPerformingAction) return this;
+        if (enemyManager.isPerformingAction)
+        {
+            enemyAnimatorManager.animator.SetFloat(Vertical, 0, 0.1f, Time.deltaTime);
+            return this;
+        }
 
         var currentTargetPosition = enemyManager.currentTarget.transform.position;
-        var position = transform.position;
-        //Vector3 targetDirection = currentTargetPosition - position;
-        enemyManager.distanceFromTarget = Vector3.Distance(currentTargetPosition, position);
-        //float viewAbleAngle = Vector3.Angle(targetDirection, transform.forward);
+        var position = enemyManager.transform.position;
+        Vector3 targetDirection = currentTargetPosition - position;
+        float distanceFromTarget = Vector3.Distance(currentTargetPosition, position);
+        //float viewAbleAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
 
-        if (enemyManager.distanceFromTarget > enemyManager.maximumAttackRange)
+        if (distanceFromTarget > enemyManager.maximumAttackRange)
         {
             enemyAnimatorManager.animator.SetFloat(Vertical, 1, 0.1f, Time.deltaTime);
         }
@@ -25,7 +29,7 @@ public class PursueTargetState : State
         navMeshAgentTransform.localPosition = Vector3.zero;
         navMeshAgentTransform.localRotation = Quaternion.identity;
 
-        if (enemyManager.distanceFromTarget <= enemyManager.maximumAttackRange)
+        if ( distanceFromTarget <= enemyManager.maximumAttackRange)
         {
             return combatStanceState;
         }
@@ -58,7 +62,7 @@ public class PursueTargetState : State
             enemyManager.navMeshAgent.enabled = true;
             enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
             enemyManager.enemyRigidbody.velocity = targetVelocity;
-            enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, enemyManager.navMeshAgent.transform.rotation,
+            enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation,
                 enemyManager.rotationSpeed / Time.deltaTime);
         }
     }

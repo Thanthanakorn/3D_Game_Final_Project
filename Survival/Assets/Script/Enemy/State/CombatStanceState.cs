@@ -4,16 +4,23 @@ public class CombatStanceState : State
 {
     public AttackState attackState;
     public PursueTargetState pursueTargetState;
+    private static readonly int Vertical = Animator.StringToHash("Vertical");
+
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
     {
-        enemyManager.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position,
+        float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position,
             enemyManager.transform.position);
 
-        if (enemyManager.currentRecoveryTime <= 0 && enemyManager.distanceFromTarget <= enemyManager.maximumAttackRange)
+        if (enemyManager.isPerformingAction)
+        {
+            enemyAnimatorManager.animator.SetFloat(Vertical, 0,0.1f, Time.deltaTime);
+        }
+        
+        if (enemyManager.currentRecoveryTime <= 0 && distanceFromTarget <= enemyManager.maximumAttackRange)
         {
             return attackState;
         }
-        if (enemyManager.distanceFromTarget > enemyManager.maximumAttackRange)
+        if (distanceFromTarget > enemyManager.maximumAttackRange)
         {
             return pursueTargetState;
         }

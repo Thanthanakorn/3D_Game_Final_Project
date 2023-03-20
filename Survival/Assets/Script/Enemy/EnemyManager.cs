@@ -19,9 +19,7 @@ public class EnemyManager : CharacterManager
     [Header("A.I Settings")] public float detectionRadius = 20;
     public float maximumDetectionAngle = 50;
     public float minimumDetectionAngle = -50;
-    public float viewAbleAngle;
     
-    public float distanceFromTarget;
     public float currentRecoveryTime;
 
     private void Awake()

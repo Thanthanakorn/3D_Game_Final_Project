@@ -12,24 +12,27 @@ public class AttackState : State
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats,
         EnemyAnimatorManager enemyAnimatorManager)
     {
-        //var transform1 = transform;
-        //Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform1.position;
-        //float viewAbleAngle = Vector3.Angle(targetDirection, transform1.forward);
+        var transform1 = transform;
+        var currentTargetPosition = enemyManager.currentTarget.transform.position;
+        Vector3 targetDirection = currentTargetPosition - transform1.position;
+        float distanceFromTarget =
+            Vector3.Distance(currentTargetPosition, enemyManager.transform.position);
+        float viewAbleAngle = Vector3.Angle(targetDirection, transform1.forward);
         if (enemyManager.isPerformingAction)
             return combatStanceState;
         
         if (currentAttack != null)
         {
             //If we are too close to the enemy to perform current attack, get a new attack
-            if (enemyManager.distanceFromTarget < currentAttack.minimumDistanceNeededToAttack)
+            if (distanceFromTarget < currentAttack.minimumDistanceNeededToAttack)
             {
                 return this;
             }
-            if (enemyManager.distanceFromTarget < currentAttack.maximumDistanceNeededToAttack)
+            if (distanceFromTarget < currentAttack.maximumDistanceNeededToAttack)
             {
                 //If out enemy is within uor attacks viewable angle, we attack
-                if (enemyManager.viewAbleAngle <= currentAttack.maximumAttackAngle &&
-                    enemyManager.viewAbleAngle >= currentAttack.minimumAttackAngle)
+                if (viewAbleAngle <= currentAttack.maximumAttackAngle &&
+                    viewAbleAngle >= currentAttack.minimumAttackAngle)
                 {
                     if (enemyManager.currentRecoveryTime <= 0 && enemyManager.isPerformingAction == false)
                     {
@@ -54,18 +57,19 @@ public class AttackState : State
     private void GetNewAttack(EnemyManager enemyManager)
     {
         var currentTargetPosition = enemyManager.currentTarget.transform.position;
-        var position = transform.position;
+        var transform1 = transform;
+        var position = transform1.position;
         var targetDirection = currentTargetPosition - position;
-        var viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-        enemyManager.distanceFromTarget = Vector3.Distance(currentTargetPosition, position);
+        var viewableAngle = Vector3.Angle(targetDirection, transform1.forward);
+        float distanceFromTarget = Vector3.Distance(currentTargetPosition, position);
 
         var maxScore = 0;
 
         for (int i = 0; i < enemyAttacks.Length; i++)
         {
             var enemyAttackAction = enemyAttacks[i];
-            if (enemyManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
-                && enemyManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+            if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                && distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
             {
                 if (viewableAngle <= enemyAttackAction.maximumAttackAngle
                     && viewableAngle >= enemyAttackAction.minimumAttackAngle)
@@ -81,8 +85,8 @@ public class AttackState : State
         for (int i = 0; i < enemyAttacks.Length; i++)
         {
             var enemyAttackAction = enemyAttacks[i];
-            if (enemyManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
-                && enemyManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+            if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                && distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
             {
                 if (viewableAngle <= enemyAttackAction.maximumAttackAngle
                     && viewableAngle >= enemyAttackAction.minimumAttackAngle)
