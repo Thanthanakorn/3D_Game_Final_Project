@@ -1204,6 +1204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockOnTransform: {fileID: 1432656253}
+  canBeParried: 0
+  isParrying: 0
   isInteracting: 0
   isAttacking: 0
   isSprinting: 0
@@ -1224,6 +1226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0, z: 0}
+  sprintStaminaConsume: 1
+  rollStaminaConsume: 25
   myTransform: {fileID: 0}
   animatorHandler: {fileID: 0}
   rigidbody: {fileID: 846521451}
@@ -1260,6 +1264,7 @@ MonoBehaviour:
   ctrlInput: 0
   rbInput: 0
   rtInput: 0
+  ltInput: 0
   jumpInput: 0
   lockOnInput: 0
   rightStickRightInput: 0
@@ -1355,7 +1360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1052534073fd4004ac4eb985762862d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 10
+  healthLevel: 1000
   maxHealth: 0
   currentHealth: 0
   isDead: 0
@@ -3886,6 +3891,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536584816442711862, guid: 455aa22c6eee7420d9a6d7b1e342a972,
+        type: 3}
+      propertyPath: currentRecoveryTime
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5536584816442711864, guid: 455aa22c6eee7420d9a6d7b1e342a972,
         type: 3}
