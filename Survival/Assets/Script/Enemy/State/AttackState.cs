@@ -3,6 +3,7 @@ using UnityEngine;
 public class AttackState : State
 {
     public CombatStanceState combatStanceState;
+    public DeadState deadState;
     
     public EnemyAttackAction[] enemyAttacks;
     public EnemyAttackAction currentAttack;
@@ -12,6 +13,11 @@ public class AttackState : State
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats,
         EnemyAnimatorManager enemyAnimatorManager)
     {
+        if (enemyStats.isDead)
+        {
+            return deadState;
+        }
+        
         var transform1 = transform;
         var currentTargetPosition = enemyManager.currentTarget.transform.position;
         Vector3 targetDirection = currentTargetPosition - transform1.position;

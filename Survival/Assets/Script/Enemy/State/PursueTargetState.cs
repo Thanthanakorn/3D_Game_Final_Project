@@ -3,10 +3,17 @@ using UnityEngine;
 public class PursueTargetState : State
 {
     public CombatStanceState combatStanceState;
+    public DeadState deadState;
+    
     private static readonly int Vertical = Animator.StringToHash("Vertical");
 
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager) 
     { 
+        if (enemyStats.isDead)
+        {
+            return deadState;
+        }
+        
         if (enemyManager.isPerformingAction)
         {
             enemyAnimatorManager.animator.SetFloat(Vertical, 0, 0.1f, Time.deltaTime);

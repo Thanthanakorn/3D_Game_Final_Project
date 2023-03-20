@@ -4,10 +4,17 @@ public class CombatStanceState : State
 {
     public AttackState attackState;
     public PursueTargetState pursueTargetState;
+    public DeadState deadState;
+    
     private static readonly int Vertical = Animator.StringToHash("Vertical");
 
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
     {
+        if (enemyStats.isDead)
+        {
+            return deadState;
+        }
+        
         float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position,
             enemyManager.transform.position);
 

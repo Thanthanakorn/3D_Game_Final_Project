@@ -122,6 +122,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleMovement(float delta)
     {
+        if (_playerStats.isDead) return;
+        
         if (_playerManager.isInAir)
         {
             return;
@@ -191,6 +193,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleRollingAndSprinting(float delta)
     {
+        if (_playerStats.isDead) return;
+        
         if (((AnimatorManager)animatorHandler).animator.GetBool(IsInteracting))
             return;
 

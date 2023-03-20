@@ -47,6 +47,7 @@ public class EnemyManager : CharacterManager
 
     private void FixedUpdate()
     {
+        if (_enemyStats.isDead) return;
         HandleStateMachine();
     }
 

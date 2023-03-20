@@ -3,11 +3,18 @@ using UnityEngine;
 public class IdleState : State
 {
     public PursueTargetState pursueTargetState;
+    public DeadState deadState;
     public LayerMask detectionLayer;
     
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats,
         EnemyAnimatorManager enemyAnimatorManager)
     {
+
+        if (enemyStats.isDead)
+        {
+            return deadState;
+        }
+        
         #region Handle Enemy Target Detection
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
