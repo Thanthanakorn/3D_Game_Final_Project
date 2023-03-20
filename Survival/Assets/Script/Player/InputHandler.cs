@@ -11,7 +11,8 @@ public class InputHandler : MonoBehaviour
     public bool shiftInput;
     public bool ctrlInput;
     public bool rbInput;
-    public bool rtInput; 
+    public bool rtInput;
+    public bool ltInput;
     public bool jumpInput;
     public bool lockOnInput;
     public bool rightStickRightInput;
@@ -53,6 +54,7 @@ public class InputHandler : MonoBehaviour
             _inputActions.PlayerMovement.LockOnTargetLeft.performed += _ => rightStickLeftInput = true;
             _inputActions.PlayerActions.LightAttack.performed += _ => rbInput = true;
             _inputActions.PlayerActions.HeavyAttack.performed += _ => rtInput = true;
+            _inputActions.PlayerActions.LT.performed += _ => ltInput = true;
             _inputActions.PlayerActions.Jump.performed += _ => jumpInput = true;
             _inputActions.PlayerActions.LockOn.performed += _ => lockOnInput = true;
         }
@@ -122,6 +124,11 @@ public class InputHandler : MonoBehaviour
             {
                 _playerAttacker.HandleHeavyAttack(_playerInventory.rightWeapon);
             }
+        }
+
+        if (ltInput)
+        {
+            _playerAttacker.HandleParry(_playerInventory.leftWeapon);
         }
     }
     

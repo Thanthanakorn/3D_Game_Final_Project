@@ -67,6 +67,7 @@ public class PlayerManager : CharacterManager
         _inputHandler.rtInput = false;
         _inputHandler.rbInput = false;
         _inputHandler.jumpInput = false;
+        _inputHandler.ltInput = false;
         
         var delta = Time.deltaTime;
         

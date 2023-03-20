@@ -20,4 +20,8 @@ public class WeaponItem : Item
    public float lightAttackMultiplier;
    public float heavyAttackMultiplier;
 
+   [Header("Defend")]
+   public bool isShieldWeapon;
+   public string parry;
+
 }

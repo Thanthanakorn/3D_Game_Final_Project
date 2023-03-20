@@ -50,19 +50,11 @@ public class EnemyWeaponSlotManager : MonoBehaviour
     private void LoadRightWeaponDamageCollider()
     {
         _rightHandDamageCollider = _rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
-        
-        if (_rightHandDamageCollider == null)
-        {
-            Debug.Log("right hand damage collider is null");
-        }
+        _rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
     }
 
     public void EnemyOpenDamageCollider()
     {
-        if (_rightHandDamageCollider == null)
-        {
-            Debug.Log("right hand damage collider is null");
-        }
         _rightHandDamageCollider.EnableDamageCollider();
     }
 

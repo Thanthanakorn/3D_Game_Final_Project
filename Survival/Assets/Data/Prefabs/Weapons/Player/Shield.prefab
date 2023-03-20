@@ -128,8 +128,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 14.000007, y: 19.000053, z: 3.2444968}
-  m_Center: {x: 0.000000059604645, y: 10.50001, z: -0.90462637}
+  m_Size: {x: 22.392786, y: 28.837875, z: 13.96284}
+  m_Center: {x: 0.5606408, y: 11.110114, z: -0.3688898}
 --- !u!114 &6275253514006561314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ac36c7229134e8d9833ed32deb4276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeaponDamage: 25
+  characterManager: {fileID: 0}
+  currentWeaponDamage: 5
 --- !u!1 &8069915285210058107
 GameObject:
   m_ObjectHideFlags: 0

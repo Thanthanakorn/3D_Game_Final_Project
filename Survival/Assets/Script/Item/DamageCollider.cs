@@ -3,6 +3,7 @@ using UnityEngine;
 public class DamageCollider : MonoBehaviour
 {
     private BoxCollider _damageCollider;
+    public CharacterManager characterManager;
 
     public int currentWeaponDamage = 25;
 
@@ -30,7 +31,16 @@ public class DamageCollider : MonoBehaviour
         if (collision.CompareTag("Enemy"))
         {
             EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
+            CharacterManager enemyCharacterManager = collision.GetComponent<CharacterManager>();
 
+            if (enemyCharacterManager != null)
+            {
+                if (enemyCharacterManager.isParrying)
+                {
+                    characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried",true);
+                    return;
+                }
+            }
             if (enemyStats != null)
             {
                 enemyStats.TakeDamage(currentWeaponDamage);
@@ -40,6 +50,17 @@ public class DamageCollider : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerStats playerStats = collision.GetComponent<PlayerStats>();
+            CharacterManager enemyCharacterManager = collision.GetComponent<CharacterManager>();
+            
+            if (enemyCharacterManager != null)
+            {
+                if (enemyCharacterManager.isParrying)
+                {
+                    characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried",true);
+                    return;
+                }
+            }
+            
             if (playerStats != null)
             {
                 playerStats.TakeDamage(currentWeaponDamage);

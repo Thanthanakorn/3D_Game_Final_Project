@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AnimatorHandler : AnimatorManager
@@ -132,5 +133,15 @@ public class AnimatorHandler : AnimatorManager
     public void DisableIsInvulnerable()
     {
         animator.SetBool(IsInvulnerable, false);
+    }
+
+    public void EnableIsParrying()
+    {
+        _playerManager.isParrying = true;
+    }
+
+    public void DisableIsParrying()
+    {
+        _playerManager.isParrying = false;
     }
 }

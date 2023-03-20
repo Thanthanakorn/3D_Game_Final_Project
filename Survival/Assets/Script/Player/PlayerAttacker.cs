@@ -5,7 +5,9 @@ public class PlayerAttacker : MonoBehaviour
     private AnimatorHandler _animatorHandler;
     private InputHandler _inputHandler;
     private WeaponSlotManager _weaponSlotManager;
+    private PlayerManager _playerManager;
     private PlayerStats _playerStats;
+    private PlayerInventory _playerInventory;
     public string lastAttack;
     private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
 
@@ -15,6 +17,8 @@ public class PlayerAttacker : MonoBehaviour
         _weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         _inputHandler = GetComponent<InputHandler>();
         _playerStats = GetComponent<PlayerStats>();
+        _playerManager = GetComponent<PlayerManager>();
+        _playerInventory = GetComponent<PlayerInventory>();
     }
 
     public void HandleLightAttack(WeaponItem weapon)
@@ -58,5 +62,11 @@ public class PlayerAttacker : MonoBehaviour
                 _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack3, true);
             }
         }
+    }
+    
+    public void HandleParry(WeaponItem weapon)
+    {
+        if (_playerManager.isInteracting || _playerManager.isAttacking) return;
+        _animatorHandler.PlayTargetAnimation(_playerInventory.leftWeapon.parry, true);
     }
 }
