@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats
 {
-    
-    public HealthBar healthBar;
+    public UIEnemyHealthBar healthBar;
     private EnemyAnimatorManager _animatorHandler;
     
     private Rigidbody _rigidbody;
@@ -20,10 +19,10 @@ public class EnemyStats : CharacterStats
         _rigidbody = GetComponentInChildren<Rigidbody>();
         _collider = GetComponentInChildren<CapsuleCollider>();
         maxHealth = SetMaxHealthFromHealthLevel();
+        healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
-        //healthBar.SetMaxHealth(maxHealth);
     }
-
+    
     private int SetMaxHealthFromHealthLevel()
     {
         maxHealth = healthLevel * 10;
@@ -35,8 +34,7 @@ public class EnemyStats : CharacterStats
         if (isDead) return;
         
         currentHealth -= damage;
-        //healthBar.SetCurrentHealth(currentHealth);
-        //_animatorHandler.PlayTargetAnimation("Body Impact", false);
+        healthBar.SetHealth(currentHealth);
 
         if (currentHealth <= 0)
         {
