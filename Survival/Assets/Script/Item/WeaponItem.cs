@@ -23,5 +23,6 @@ public class WeaponItem : Item
    [Header("Defend")]
    public bool isShieldWeapon;
    public string parry;
+   public float physicalDamageAbsorption;
 
 }

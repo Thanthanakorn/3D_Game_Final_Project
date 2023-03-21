@@ -17,12 +17,12 @@ public class InputHandler : MonoBehaviour
     public bool lockOnInput;
     public bool rightStickRightInput;
     public bool rightStickLeftInput;
+    public bool blockInput;
     
     public bool rollFlag;
     public bool sprintFlag;
     public bool comboFlag;
     public bool lockOnFlag;
-    
 
     private PlayerControls _inputActions;
     private PlayerAttacker _playerAttacker;
@@ -30,6 +30,7 @@ public class InputHandler : MonoBehaviour
     private PlayerInventory _playerInventory;
     private PlayerManager _playerManager;
     private PlayerStats _playerStats;
+    private BlockingCollider _blockingCollider;
 
     private Vector2 _movementInput;
     private Vector2 _cameraInput;
@@ -41,6 +42,7 @@ public class InputHandler : MonoBehaviour
         _playerManager = GetComponent<PlayerManager>();
         _playerStats = GetComponent<PlayerStats>();
         _cameraHandler = FindObjectOfType<CameraHandler>();
+        _blockingCollider = GetComponentInChildren<BlockingCollider>();
     }
 
     public void OnEnable()
@@ -57,6 +59,8 @@ public class InputHandler : MonoBehaviour
             _inputActions.PlayerActions.LT.performed += _ => ltInput = true;
             _inputActions.PlayerActions.Jump.performed += _ => jumpInput = true;
             _inputActions.PlayerActions.LockOn.performed += _ => lockOnInput = true;
+            _inputActions.PlayerActions.Block.performed += _ => blockInput = true;
+            _inputActions.PlayerActions.Block.canceled += _ => blockInput = false;
         }
 
         _inputActions.Enable();
@@ -71,12 +75,13 @@ public class InputHandler : MonoBehaviour
     {
         HandleMoveInput();
         HandleRollingAndSprintingInput();
-        HandleAttackInput();
+        HandleCombatInput();
         HandleLockOnInput();
     }
 
     private void HandleMoveInput()
     {
+        if (_playerManager.isBlocking) return;
         horizontal = _movementInput.x;
         vertical = _movementInput.y;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
@@ -92,7 +97,7 @@ public class InputHandler : MonoBehaviour
         sprintFlag = shiftInput;
     }
 
-    private void HandleAttackInput()
+    private void HandleCombatInput()
     {
         if (rbInput)
         {
@@ -129,6 +134,21 @@ public class InputHandler : MonoBehaviour
         if (ltInput)
         {
             _playerAttacker.HandleParry(_playerInventory.leftWeapon);
+        }
+
+        if (blockInput)
+        {
+            _playerAttacker.HandleBlock();
+            
+        }
+        else
+        {
+            _playerManager.isBlocking = false;
+
+            if (_blockingCollider.blockingCollider.enabled)
+            {
+                _blockingCollider.DisableBlockingCollider();
+            }
         }
     }
     

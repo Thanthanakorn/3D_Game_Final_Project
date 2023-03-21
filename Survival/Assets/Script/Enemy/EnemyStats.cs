@@ -30,7 +30,7 @@ public class EnemyStats : CharacterStats
         return maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, string damageAnimation = "Body Impact")
     {
         if (isDead) return;
         
@@ -54,7 +54,7 @@ public class EnemyStats : CharacterStats
         }
         else
         {
-            _animatorHandler.PlayTargetAnimation("Body Impact", true);
+            _animatorHandler.PlayTargetAnimation(damageAnimation, true);
         }
     }
     

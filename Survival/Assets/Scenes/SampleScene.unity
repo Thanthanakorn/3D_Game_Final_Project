@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -280,7 +280,7 @@ MonoBehaviour:
   environmentLayer:
     serializedVersion: 2
     m_Bits: 256
-  lookSpeed: 0.01
+  lookSpeed: 0.1
   followSpeed: 0.15
   pivotSpeed: 0.01
   minimumPivot: -35
@@ -1206,6 +1206,7 @@ MonoBehaviour:
   lockOnTransform: {fileID: 1432656253}
   canBeParried: 0
   isParrying: 0
+  isBlocking: 0
   isInteracting: 0
   isAttacking: 0
   isSprinting: 0
@@ -1213,6 +1214,7 @@ MonoBehaviour:
   isGrounded: 0
   canDoCombo: 0
   isInvulnerable: 0
+  isBlockingImpact: 0
 --- !u!114 &846521448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1269,6 +1271,7 @@ MonoBehaviour:
   lockOnInput: 0
   rightStickRightInput: 0
   rightStickLeftInput: 0
+  blockInput: 0
   rollFlag: 0
   sprintFlag: 0
   comboFlag: 0
@@ -1410,6 +1413,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackingWeapon: {fileID: 0}
+--- !u!114 &868796616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868796610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b0dfff3eb8b4c2c85293ec5f69a423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockingCollider: {fileID: 1479681033}
 --- !u!1001 &945213630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1831,6 +1847,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2112885979}
+  - {fileID: 1479681032}
   m_Father: {fileID: 846521452}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1916,6 +1933,66 @@ Transform:
   m_Father: {fileID: 846521452}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1479681031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1479681032}
+  - component: {fileID: 1479681034}
+  - component: {fileID: 1479681033}
+  m_Layer: 9
+  m_Name: Block Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1479681032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479681031}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1337169973}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1479681033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479681031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f8070850ad54c45b3137abef418bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockingCollider: {fileID: 0}
+  blockingPhysicalDamageAbsorption: 0
+--- !u!65 &1479681034
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479681031}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.2118664, y: 7.664605, z: 1.4635891}
+  m_Center: {x: -0.10054159, y: 3.4947758, z: 1.5526087}
 --- !u!1 &1618180282
 GameObject:
   m_ObjectHideFlags: 0

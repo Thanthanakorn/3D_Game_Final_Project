@@ -8,6 +8,8 @@ public class PlayerAttacker : MonoBehaviour
     private PlayerManager _playerManager;
     private PlayerStats _playerStats;
     private PlayerInventory _playerInventory;
+    private PlayerEquipmentManager _playerEquipmentManager;
+    
     public string lastAttack;
     private static readonly int CanDoCombo = Animator.StringToHash("canDoCombo");
 
@@ -19,11 +21,12 @@ public class PlayerAttacker : MonoBehaviour
         _playerStats = GetComponent<PlayerStats>();
         _playerManager = GetComponent<PlayerManager>();
         _playerInventory = GetComponent<PlayerInventory>();
+        _playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
     }
 
     public void HandleLightAttack(WeaponItem weapon)
     {
-        if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
+        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.lightAttackMultiplier)) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack1, true);
         lastAttack = weapon.ohLightAttack1;
@@ -31,7 +34,7 @@ public class PlayerAttacker : MonoBehaviour
 
     public void HandleHeavyAttack(WeaponItem weapon)
     {
-        if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
+        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.heavyAttackMultiplier)) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack1, true);
         lastAttack = weapon.ohHeavyAttack1;
@@ -42,7 +45,9 @@ public class PlayerAttacker : MonoBehaviour
         if (_inputHandler.comboFlag)
         {
             if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
+            
             ((AnimatorManager)_animatorHandler).animator.SetBool(CanDoCombo, false);
+            
             if (lastAttack == weapon.ohLightAttack1)
             {
                 _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack2, true);
@@ -69,4 +74,23 @@ public class PlayerAttacker : MonoBehaviour
         if (_playerManager.isInteracting || _playerManager.isAttacking) return;
         _animatorHandler.PlayTargetAnimation(_playerInventory.leftWeapon.parry, true);
     }
+
+    public void HandleBlock()
+    {
+        PerformBlockingAction();
+    }
+    
+    #region Defense Actions
+
+    private void PerformBlockingAction()
+    {
+        if (_playerManager.isInteracting) return;
+        
+        if(_playerManager.isBlocking) return;
+        
+        _animatorHandler.PlayTargetAnimation("Blocking 1", false);
+        _playerManager.isBlocking = true;
+    }
+    
+    #endregion
 }

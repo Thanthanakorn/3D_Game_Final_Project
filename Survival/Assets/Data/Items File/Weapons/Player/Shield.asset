@@ -27,3 +27,4 @@ MonoBehaviour:
   heavyAttackMultiplier: 0
   isShieldWeapon: 1
   parry: Parry
+  physicalDamageAbsorption: 40

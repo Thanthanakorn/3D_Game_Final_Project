@@ -8,4 +8,5 @@ public class CharacterManager : MonoBehaviour
 
     public bool canBeParried;
     public bool isParrying;
+    public bool isBlocking;
 }

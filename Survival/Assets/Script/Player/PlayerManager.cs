@@ -18,6 +18,7 @@ public class PlayerManager : CharacterManager
     public bool isGrounded;
     public bool canDoCombo;
     public bool isInvulnerable;
+    public bool isBlockingImpact;
 
     private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
@@ -25,6 +26,8 @@ public class PlayerManager : CharacterManager
     private static readonly int IsInAir = Animator.StringToHash("isInAir");
     private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
     private static readonly int IsInvulnerable = Animator.StringToHash("isInvulnerable");
+    private static readonly int IsBlocking = Animator.StringToHash("isBlocking");
+    private static readonly int IsBlockingImpact = Animator.StringToHash("isBlockingImpact");
 
     private void Awake()
     {
@@ -47,6 +50,8 @@ public class PlayerManager : CharacterManager
         canDoCombo = _anim.GetBool(CanDoCombo);
         _anim.SetBool(IsInAir, isInAir);
         _anim.GetBool(IsInvulnerable);
+        _anim.SetBool(IsBlocking,isBlocking);
+        _anim.SetBool(IsBlockingImpact,isBlockingImpact);
         _inputHandler.TickInput();
         _playerLocomotion.HandleRollingAndSprinting(delta);
         _playerLocomotion.HandleJumping();

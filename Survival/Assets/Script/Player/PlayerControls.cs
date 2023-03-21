@@ -265,6 +265,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8fd802b-8640-49d7-bce2-6a468f168fcb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -421,6 +430,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""LT"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b592762-0a23-4583-a693-16f1baf4e388"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac9b68a1-2a38-4a95-8084-ed49737db133"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -442,6 +473,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
         m_PlayerActions_LT = m_PlayerActions.FindAction("LT", throwIfNotFound: true);
+        m_PlayerActions_Block = m_PlayerActions.FindAction("Block", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -565,6 +597,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_LT;
+    private readonly InputAction m_PlayerActions_Block;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -576,6 +609,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @LT => m_Wrapper.m_PlayerActions_LT;
+        public InputAction @Block => m_Wrapper.m_PlayerActions_Block;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -606,6 +640,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @LT.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLT;
                 @LT.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLT;
                 @LT.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLT;
+                @Block.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -631,6 +668,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @LT.started += instance.OnLT;
                 @LT.performed += instance.OnLT;
                 @LT.canceled += instance.OnLT;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -651,5 +691,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
         void OnLT(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
 }

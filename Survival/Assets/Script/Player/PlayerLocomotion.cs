@@ -123,22 +123,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleMovement(float delta)
     {
-        if (_playerStats.isDead) return;
-        
-        if (_playerManager.isInAir)
-        {
-            return;
-        }
-        if (_playerManager.isAttacking)
-        {
-            return;
-        }
-        if (_inputHandler.rollFlag)
-            return;
-
-        if (_playerManager.isInteracting)
-            return;
-
+        if (_playerStats.isDead || _playerManager.isAttacking || _playerManager.isInteracting) return;
+       
         moveDirection = _cameraObject.forward * _inputHandler.vertical;
         moveDirection += _cameraObject.right * _inputHandler.horizontal;
         moveDirection.Normalize();
@@ -201,7 +187,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleRollingAndSprinting(float delta)
     {
-        if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
+        if (_playerStats.isDead || _playerStats.currentStamina <= rollStaminaConsume) return;
         
         if (((AnimatorManager)animatorHandler).animator.GetBool(IsInteracting))
             return;
