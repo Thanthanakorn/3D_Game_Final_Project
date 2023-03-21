@@ -74,13 +74,23 @@ public class AnimatorHandler : AnimatorManager
     {
         if (_playerManager.isAttacking == false)
             return;
-    
+
         var delta = Time.deltaTime;
+
+        if (Mathf.Approximately(delta, 0f))
+        {
+            return;
+        }
+
         _playerLocomotion.rigidbody.drag = 0;
         var deltaPosition = animator.deltaPosition;
         deltaPosition.y = 0;
         var velocity = deltaPosition / delta;
-        _playerLocomotion.rigidbody.velocity = velocity;
+
+        if (!float.IsNaN(velocity.x) && !float.IsNaN(velocity.y) && !float.IsNaN(velocity.z))
+        {
+            _playerLocomotion.rigidbody.velocity = velocity;
+        }
     }
     
     public void PlayTargetAttackingAnimation(string targetAnim, bool isAttacking)

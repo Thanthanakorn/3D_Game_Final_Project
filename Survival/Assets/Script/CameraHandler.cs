@@ -65,6 +65,10 @@ public class CameraHandler : MonoBehaviour
 
     public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
     {
+        if (PauseMenu.GameIsPaused || delta < 1e-5f) // Add this check
+        {
+            return;
+        }
         if (_inputHandler.lockOnFlag == false && currentLockOnTarget == null)
         {
             _lookAngle += (mouseXInput * lookSpeed) / delta;
