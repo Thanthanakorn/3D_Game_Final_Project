@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyStats : CharacterStats
@@ -47,12 +48,15 @@ public class EnemyStats : CharacterStats
             constraints |= RigidbodyConstraints.FreezePositionX; // Freeze position along the y-axis
             constraints |= RigidbodyConstraints.FreezePositionZ; // Freeze position along the z-axis
             _rigidbody.constraints = constraints;
-            gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+            GameObject o;
+            (o = gameObject).layer = LayerMask.NameToLayer("Ignore Raycast");
+            Destroy(o,8f);
         }
         else
         {
             _animatorHandler.PlayTargetAnimation(damageAnimation, true);
         }
     }
-    
+
+   
 }

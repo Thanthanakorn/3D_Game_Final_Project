@@ -1,41 +1,65 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public float spawnRate = 1.0f;
-    public float timeBetweenWaves = 5.0f;
+    public List<GameObject> enemyPrefabs;
+    public List<GameObject> enemyRemaining;
+    public Transform spawnPoint;
 
-    public int enemyCount = 1;
+    public int currentWave;
+    public float timeBetweenWaves = 5;
     
-    public GameObject enemy;
-
-    private bool _waveIsDone = true;
-    private void Update()
+    private bool _firstTime = true;
+    private Vector3 _firstPosition;
+    
+    void Start()
     {
-        if (_waveIsDone)
+        currentWave++;
+        StartCoroutine(StartNextWave());
+        _firstPosition = spawnPoint.position;
+    }
+
+    void Update()
+    {
+        if (enemyRemaining.All(x => x == null) && _firstTime == false)
         {
-            StartCoroutine(SpawnWave());
+            StartCoroutine(WaitBeforeTheNextRound());
         }
     }
 
-    IEnumerator SpawnWave()
+    IEnumerator StartNextWave()
     {
-        _waveIsDone = false;
-
-        for (int i = 0; i < enemyCount; i++)
+        for (int i = 0; i < currentWave; i++)
         {
-            GameObject enemyClone = Instantiate(enemy);
-            
-
-            yield return new WaitForSeconds(spawnRate);
+            foreach (GameObject enemyPrefab in enemyPrefabs)
+            {
+                transform.position += Vector3.forward * 10;
+                if (_firstTime)
+                {
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                    enemyRemaining.Add(enemy);
+                    _firstTime = false;
+                }
+                else
+                {
+                    yield return new WaitForSecondsRealtime(3f);
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                    enemyRemaining.Add(enemy);
+                }
+            }
         }
+    }
 
-        enemyCount += 1;
-
-        yield return new WaitForSeconds(timeBetweenWaves);
-
-        _waveIsDone = true;
+    IEnumerator WaitBeforeTheNextRound()
+    {
+        _firstTime = true;
+        yield return new WaitForSecondsRealtime(timeBetweenWaves);
+        enemyRemaining.Clear();
+        currentWave++;
+        transform.position = _firstPosition;
+        StartCoroutine(StartNextWave());
     }
 }
-
