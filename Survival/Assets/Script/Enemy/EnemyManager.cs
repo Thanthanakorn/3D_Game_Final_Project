@@ -18,7 +18,7 @@ public class EnemyManager : CharacterManager
     public float maximumAttackRange = 8f;
 
 
-    [Header("A.I Settings")] public float detectionRadius = 20;
+    [Header("A.I Settings")] public float detectionRadius = 90;
     public float maximumDetectionAngle = 50;
     public float minimumDetectionAngle = -50;
     
@@ -36,7 +36,7 @@ public class EnemyManager : CharacterManager
     private void Start()
     {
         enemyRigidbody.isKinematic = false;
-        navMeshAgent.enabled = false;
+        navMeshAgent.enabled = true;
         _weaponSlotManager.LoadWeaponOnSlot(rightWeapon);
     }
 

@@ -43,12 +43,11 @@ public class EnemyStats : CharacterStats
             _rigidbody = GetComponentInParent<Rigidbody>();
             _collider = GetComponentInParent<CapsuleCollider>();
             _animatorHandler.PlayTargetAnimation("Dead_side", true);
-            _collider.height = 1;
-            _collider.isTrigger = true;
             var constraints = _rigidbody.constraints;
             constraints |= RigidbodyConstraints.FreezePositionX; // Freeze position along the y-axis
             constraints |= RigidbodyConstraints.FreezePositionZ; // Freeze position along the z-axis
             _rigidbody.constraints = constraints;
+            gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
         else
         {

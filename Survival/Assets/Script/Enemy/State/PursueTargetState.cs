@@ -24,11 +24,10 @@ public class PursueTargetState : State
         var position = enemyManager.transform.position;
         Vector3 targetDirection = currentTargetPosition - position;
         float distanceFromTarget = Vector3.Distance(currentTargetPosition, position);
-        //float viewAbleAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
 
         if (distanceFromTarget > enemyManager.maximumAttackRange)
         {
-            enemyAnimatorManager.animator.SetFloat(Vertical, 1, 0.1f, Time.deltaTime);
+            enemyAnimatorManager.animator.SetFloat(Vertical, 2, 0.1f, Time.deltaTime);
         }
 
         HandleRotateTowardTarget(enemyManager);
@@ -63,7 +62,7 @@ public class PursueTargetState : State
         }
         else
         {
-            //var relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);
+            var relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);
             var targetVelocity = enemyManager.enemyRigidbody.velocity;
 
             enemyManager.navMeshAgent.enabled = true;
