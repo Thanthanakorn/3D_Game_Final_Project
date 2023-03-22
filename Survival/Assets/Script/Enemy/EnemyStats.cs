@@ -8,11 +8,16 @@ public class EnemyStats : CharacterStats
     
     private Rigidbody _rigidbody;
     private CapsuleCollider _collider;
+    private EnemyManager _enemyManager;
+
+    public bool getHit;
 
     private void Awake()
     {
         _animatorHandler = GetComponentInChildren<EnemyAnimatorManager>();
+        _enemyManager = GetComponent<EnemyManager>();
         isDead = false;
+        getHit = false;
     }
 
     private void Start()
@@ -36,7 +41,7 @@ public class EnemyStats : CharacterStats
         
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
-
+        
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -54,6 +59,7 @@ public class EnemyStats : CharacterStats
         }
         else
         {
+            getHit = true;
             _animatorHandler.PlayTargetAnimation(damageAnimation, true);
         }
     }

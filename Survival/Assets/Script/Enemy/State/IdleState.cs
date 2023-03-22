@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class IdleState : State
 {
+    
     public PursueTargetState pursueTargetState;
     public DeadState deadState;
     public LayerMask detectionLayer;
@@ -10,11 +13,10 @@ public class IdleState : State
     public float range;
     public Transform centrePoint;
     private static readonly int Vertical = Animator.StringToHash("Vertical");
-
+    
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats,
         EnemyAnimatorManager enemyAnimatorManager)
     {
-        
         if (enemyStats.isDead)
         {
             return deadState;
@@ -62,6 +64,10 @@ public class IdleState : State
                 {
                     enemyManager.currentTarget = characterStats;
                 }
+                if (enemyStats.getHit)
+                {
+                    enemyManager.currentTarget = characterStats;
+                }
             }
         }
         #endregion
@@ -72,11 +78,9 @@ public class IdleState : State
         {
             return pursueTargetState;
         }
-        else
-        {
-            return this;
-        }
-        
+
+        return this;
+
         #endregion
         
     }

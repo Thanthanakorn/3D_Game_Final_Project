@@ -5,7 +5,7 @@ public class EnemyManager : CharacterManager
 {
     private EnemyAnimatorManager _enemyAnimatorManager;
     private EnemyStats _enemyStats;
-
+    
     public State currentState;
     public CharacterStats currentTarget;
     public NavMeshAgent navMeshAgent;
@@ -13,6 +13,7 @@ public class EnemyManager : CharacterManager
     public bool isPerformingAction;
     private EnemyWeaponSlotManager _weaponSlotManager;
     public WeaponItem rightWeapon;
+    public CharacterStats switchToPlayer;
     
     [Header("Enemy Settings")] public float rotationSpeed = 20;
     public float maximumAttackRange = 8f;
@@ -31,6 +32,11 @@ public class EnemyManager : CharacterManager
         enemyRigidbody = GetComponent<Rigidbody>();
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
         _weaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
+        //switchToPlayer = GetComponent<PlayerStats>();
+        /*if (switchToPlayer == null)
+        {
+            Debug.Log("switch to player is null");
+        }*/
     }
 
     private void Start()
