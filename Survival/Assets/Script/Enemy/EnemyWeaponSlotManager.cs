@@ -60,8 +60,16 @@ public class EnemyWeaponSlotManager : MonoBehaviour
 
     public void EnemyCloseDamageCollider()
     {
-        _rightHandDamageCollider.DisableDamageCollider();
+        if (_rightHandDamageCollider != null)
+        {
+            _rightHandDamageCollider.DisableDamageCollider();
+        }
+        else
+        {
+            Debug.Log("Right Hand Damage Collider is not assigned.");
+        }
     }
+
 
     #endregion
 }
