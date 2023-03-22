@@ -11,13 +11,13 @@ public class UIEnemyHealthBar : MonoBehaviour
         _slider = GetComponentInChildren<Slider>();
     }
 
-    public void SetHealth(int health)
+    public void SetHealth(float health)
     {
         _slider.value = health;
         _timeUntilBarIsHidden = 3;
     }
 
-    public void SetMaxHealth(int maxHealth)
+    public void SetMaxHealth(float maxHealth)
     {
         _slider.maxValue = maxHealth;
         _slider.value = maxHealth;

@@ -34,7 +34,7 @@ public class PlayerStats : CharacterStats
         staminaBar.SetMaxStamina(maxStamina);
     }
 
-    private int SetMaxHealthFromHealthLevel()
+    private float SetMaxHealthFromHealthLevel()
     {
         maxHealth = healthLevel * 10;
         return maxHealth;
@@ -46,7 +46,7 @@ public class PlayerStats : CharacterStats
         return maxStamina;
     }
 
-    public void TakeDamage(int damage, string damageAnimation = "Body Impact")
+    public void TakeDamage(float damage, string damageAnimation = "Body Impact")
     {
         if (_playerManager.isInvulnerable) return;
         if (isDead) return;

@@ -24,13 +24,13 @@ public class EnemyStats : CharacterStats
         currentHealth = maxHealth;
     }
     
-    private int SetMaxHealthFromHealthLevel()
+    private float SetMaxHealthFromHealthLevel()
     {
         maxHealth = healthLevel * 10;
         return maxHealth;
     }
 
-    public void TakeDamage(int damage, string damageAnimation = "Body Impact")
+    public void TakeDamage(float damage, string damageAnimation = "Body Impact")
     {
         if (isDead) return;
         

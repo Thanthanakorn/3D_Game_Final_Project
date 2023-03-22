@@ -5,7 +5,7 @@ public class DamageCollider : MonoBehaviour
     private BoxCollider _damageCollider;
     public CharacterManager characterManager;
 
-    public int currentWeaponDamage = 25;
+    public float currentWeaponDamage = 25f;
 
     private void Awake()
     {

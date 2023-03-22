@@ -11,14 +11,13 @@ public class WaveSpawner : MonoBehaviour
 
     public int currentWave;
     public float timeBetweenWaves = 5;
-    
+
     private bool _firstTime = true;
     private Vector3 _firstPosition;
-    
+
     void Start()
     {
-        currentWave++;
-        StartCoroutine(StartNextWave());
+        StartCoroutine(WaitBeforeTheNextRound());
         _firstPosition = spawnPoint.position;
     }
 
@@ -30,9 +29,24 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator StartNextWave()
+    void StartNextWave()
     {
-        for (int i = 0; i < currentWave; i++)
+        StartCoroutine(currentWave % 4 == 0 ? IncreaseEnemies() : LevelUpEnemies());
+    }
+
+    private IEnumerator WaitBeforeTheNextRound()
+    {
+        _firstTime = true;
+        yield return new WaitForSecondsRealtime(timeBetweenWaves);
+        enemyRemaining.Clear();
+        currentWave++;
+        transform.position = _firstPosition;
+        StartNextWave();
+    }
+
+    private IEnumerator IncreaseEnemies()
+    {
+        for (int i = 0; i < currentWave / 4; i++)
         {
             foreach (GameObject enemyPrefab in enemyPrefabs)
             {
@@ -53,13 +67,34 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator WaitBeforeTheNextRound()
+    // ReSharper disable Unity.PerformanceAnalysis
+    private IEnumerator LevelUpEnemies()
     {
-        _firstTime = true;
-        yield return new WaitForSecondsRealtime(timeBetweenWaves);
-        enemyRemaining.Clear();
-        currentWave++;
-        transform.position = _firstPosition;
-        StartCoroutine(StartNextWave());
+        foreach (GameObject enemyPrefab in enemyPrefabs)
+        {
+            transform.position += Vector3.forward * 10;
+            if (_firstTime)
+            {
+                GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                if (currentWave > 1)
+                {
+                    enemy.GetComponent<EnemyStats>().healthLevel *= 1.5f;
+                    enemy.GetComponent<EnemyStats>().attackLevel *= 1.5f;
+                }
+                enemyRemaining.Add(enemy);
+                _firstTime = false;
+            }
+            else
+            {
+                yield return new WaitForSecondsRealtime(3f);
+                GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                if (currentWave > 1)
+                {
+                    enemy.GetComponent<EnemyStats>().healthLevel *= 1.5f;
+                    enemy.GetComponent<EnemyStats>().attackLevel *= 1.5f;
+                }
+                enemyRemaining.Add(enemy);
+            }
+        }
     }
 }
