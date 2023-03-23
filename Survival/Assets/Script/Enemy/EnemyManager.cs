@@ -32,11 +32,7 @@ public class EnemyManager : CharacterManager
         enemyRigidbody = GetComponent<Rigidbody>();
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
         _weaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
-        //switchToPlayer = GetComponent<PlayerStats>();
-        /*if (switchToPlayer == null)
-        {
-            Debug.Log("switch to player is null");
-        }*/
+
     }
 
     private void Start()

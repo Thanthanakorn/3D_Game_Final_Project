@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerManager : CharacterManager
 {
+    private float originalYPosition;
+
     private InputHandler _inputHandler;
     private Animator _anim;
     private CameraHandler _cameraHandler;
@@ -50,7 +52,20 @@ public class PlayerManager : CharacterManager
         canDoCombo = _anim.GetBool(CanDoCombo);
         _anim.SetBool(IsInAir, isInAir);
         _anim.GetBool(IsInvulnerable);
-        _anim.SetBool(IsBlocking,isBlocking);
+        _anim.SetBool(IsBlocking, isBlocking);
+
+        if (isBlocking)
+        {
+            if (Mathf.Approximately(originalYPosition, 0f))
+            {
+                originalYPosition = transform.position.y;
+            }
+            transform.position = new Vector3(transform.position.x, originalYPosition, transform.position.z);
+        }
+        else
+        {
+            originalYPosition = 0f;
+        }
         _anim.SetBool(IsBlockingImpact,isBlockingImpact);
         _inputHandler.TickInput();
         _playerLocomotion.HandleRollingAndSprinting(delta);
