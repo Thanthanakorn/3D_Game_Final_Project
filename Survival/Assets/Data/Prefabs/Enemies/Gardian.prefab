@@ -290,8 +290,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.014728308, y: -0.05200001}
+  m_SizeDelta: {x: 0.021543633, y: 0.0934}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3186950059314544567
 CanvasRenderer:
@@ -314,14 +314,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5754717, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1182809505, guid: a28c27966faa7a748bbb20635ec6c169, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -453,9 +453,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.5498497
-  m_Height: 7.661557
+  m_Height: 6.58053
   m_Direction: 1
-  m_Center: {x: -0.05121517, y: 3.447863, z: -0.07}
+  m_Center: {x: -0.05121517, y: 3.604703, z: -0.07000005}
 --- !u!114 &6985000283756973384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +477,7 @@ MonoBehaviour:
   maxStamina: 0
   currentStamina: 0
   healthBar: {fileID: 3186950060986936120}
+  getHit: 0
 --- !u!114 &6985000283756973387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,6 +500,7 @@ MonoBehaviour:
   enemyRigidbody: {fileID: 0}
   isPerformingAction: 0
   rightWeapon: {fileID: 11400000, guid: c5ec45b74275f4dc8af750272dce8171, type: 2}
+  switchToPlayer: {fileID: 0}
   rotationSpeed: 20
   maximumAttackRange: 7
   detectionRadius: 20
@@ -692,8 +694,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.5, y: 9}
-  m_SizeDelta: {x: 5, y: 1}
+  m_AnchoredPosition: {x: 0.0046, y: 7.9408}
+  m_SizeDelta: {x: 5.0462, y: 0.21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3186950060340917248
 MonoBehaviour:
@@ -781,8 +783,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.7088, y: 0.0343}
-  m_SizeDelta: {x: 1.875, y: 0.2286}
+  m_AnchoredPosition: {x: -0.01563549, y: -0.05200001}
+  m_SizeDelta: {x: 0.019729655, y: 0.0934}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3186950060539472274
 CanvasRenderer:
@@ -805,14 +807,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5803922}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1976135943, guid: a28c27966faa7a748bbb20635ec6c169, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -882,9 +884,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 1.3441405
-  m_Height: 8.385689
+  m_Height: 6.497954
   m_Direction: 1
-  m_Center: {x: 0.1141634, y: 3.1928444, z: -0.27056837}
+  m_Center: {x: 0.1141634, y: 3.553702, z: -0.27056837}
 --- !u!1 &3186950060853642911
 GameObject:
   m_ObjectHideFlags: 0
