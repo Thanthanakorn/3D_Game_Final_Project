@@ -2096,6 +2096,9 @@ MonoBehaviour:
   staminaBar: {fileID: 2023015622}
   staminaRegenerationAmount: 25
   staminaRegenerationTimer: 0
+  damageEffectPrefab: {fileID: 8782986344035556461, guid: f3a13fb352b4a9448acf2975ea82271a,
+    type: 3}
+  damageEffectPosition: {fileID: 1219831743}
 --- !u!1 &868796610 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d3a119a2df61b2942b136067d8e96e4f,
@@ -2571,6 +2574,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -409841303858938453, guid: 773701e6ec9922b459b54bb858f91cc3, type: 3}
+--- !u!1 &1219831742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219831743}
+  m_Layer: 0
+  m_Name: DamageEffectPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1219831743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219831742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.63, z: 0.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 868796611}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1243741273
 GameObject:
   m_ObjectHideFlags: 0

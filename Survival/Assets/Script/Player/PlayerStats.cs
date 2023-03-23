@@ -11,6 +11,11 @@ public class PlayerStats : CharacterStats
     private PlayerManager _playerManager;
     public float staminaRegenerationAmount = 25;
     public float staminaRegenerationTimer = 0;
+    
+    public GameObject damageEffectPrefab;
+    public Transform damageEffectPosition;
+
+
 
     private void Awake()
     {
@@ -52,6 +57,10 @@ public class PlayerStats : CharacterStats
         if (isDead) return;
         currentHealth -= damage;
         healthBar.SetCurrentHealth(currentHealth);
+        GameObject damageEffect = Instantiate(damageEffectPrefab, damageEffectPosition.position, damageEffectPosition.rotation);
+        damageEffect.transform.SetParent(transform);
+        Destroy(damageEffect, 1f);
+
         _animatorHandler.PlayTargetAnimation(damageAnimation, true);
 
         if (currentHealth <= 0)

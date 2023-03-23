@@ -80082,7 +80082,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.5666667
+  - time: 2
     functionName: CloseDamageCollider
     data: 
     objectReferenceParameter: {fileID: 0}

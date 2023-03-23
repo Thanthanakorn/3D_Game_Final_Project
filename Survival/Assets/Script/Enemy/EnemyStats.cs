@@ -9,6 +9,11 @@ public class EnemyStats : CharacterStats
     private Rigidbody _rigidbody;
     private CapsuleCollider _collider;
     private EnemyManager _enemyManager;
+    
+    public GameObject damageEffectPrefab;
+    public Transform damageEffectPosition;
+
+
 
     public bool getHit;
 
@@ -60,6 +65,9 @@ public class EnemyStats : CharacterStats
         else
         {
             getHit = true;
+            GameObject damageEffect = Instantiate(damageEffectPrefab, damageEffectPosition.position, damageEffectPosition.rotation);
+            damageEffect.transform.SetParent(transform);
+            Destroy(damageEffect, 1f);
             _animatorHandler.PlayTargetAnimation(damageAnimation, true);
         }
     }
