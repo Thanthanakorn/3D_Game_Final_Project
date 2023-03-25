@@ -97,7 +97,7 @@ public class AnimatorHandler : AnimatorManager
     {
         animator.applyRootMotion = isAttacking;
         animator.SetBool(IsAttacking, isAttacking);
-        animator.CrossFade(targetAnim, 0.2f);
+        animator.CrossFade(targetAnim, 0.3f);
         
         if (isAttacking)
         {
