@@ -26,7 +26,7 @@ public class PlayerAttacker : MonoBehaviour
 
     public void HandleLightAttack(WeaponItem weapon)
     {
-        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.lightAttackMultiplier)) return;
+        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.lightAttackMultiplier) || _playerManager.isAttacking) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack1, true);
         lastAttack = weapon.ohLightAttack1;
@@ -34,7 +34,7 @@ public class PlayerAttacker : MonoBehaviour
 
     public void HandleHeavyAttack(WeaponItem weapon)
     {
-        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.heavyAttackMultiplier)) return;
+        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.heavyAttackMultiplier) || _playerManager.isAttacking) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack1, true);
         lastAttack = weapon.ohHeavyAttack1;
