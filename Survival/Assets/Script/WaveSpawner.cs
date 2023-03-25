@@ -46,11 +46,11 @@ public class WaveSpawner : MonoBehaviour
 
     private IEnumerator IncreaseEnemies()
     {
-        for (int i = 0; i < currentWave / 4; i++)
+        for (int i = 0; i < (currentWave / 4) + 1; i++)
         {
             foreach (GameObject enemyPrefab in enemyPrefabs)
             {
-                transform.position += Vector3.forward * 10;
+                transform.position += Vector3.right * 20;
                 if (_firstTime)
                 {
                     GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
@@ -72,7 +72,7 @@ public class WaveSpawner : MonoBehaviour
     {
         foreach (GameObject enemyPrefab in enemyPrefabs)
         {
-            transform.position += Vector3.forward * 10;
+            transform.position += Vector3.right * 20;
             if (_firstTime)
             {
                 GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
