@@ -108,4 +108,18 @@ public class PlayerStats : CharacterStats
             }
         }
     }
+    public void LevelUp()
+    {
+        healthLevel += 50;
+        staminaLevel += 10;
+
+        maxHealth = SetMaxHealthFromHealthLevel();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
+        maxStamina = SetMaxStaminaFromStaminaLevel();
+        currentStamina = maxStamina;
+        staminaBar.SetMaxStamina(maxStamina);
+    }
+
 }

@@ -11,6 +11,15 @@ public class WaveSpawner : MonoBehaviour
 
     public int currentWave;
     public float timeBetweenWaves = 5;
+    public float minSpawnDistance = 5f;
+    public float maxSpawnDistance = 150f;
+    public float colliderCheckRadius = 1f;
+    public float minDistanceFromOtherEnemies = 150f;
+    
+    public PlayerStats playerStats;
+
+
+
 
     private bool _firstTime = true;
     private Vector3 _firstPosition;
@@ -29,6 +38,45 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
+    Vector3 GetRandomPosition(float minDistance, float maxDistance, float minDistanceFromOtherEnemies, float colliderCheckRadius)
+    {
+        Vector3 randomPosition = spawnPoint.position;
+
+        for (int i = 0; i < 100; i++)
+        {
+            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere;
+            randomDirection.y = 0;
+            randomPosition = spawnPoint.position + randomDirection.normalized * UnityEngine.Random.Range(minDistance, maxDistance);
+
+            Collider[] colliders = Physics.OverlapSphere(randomPosition, colliderCheckRadius);
+
+            if (colliders.Length == 0)
+            {
+                bool isTooCloseToOtherEnemies = false;
+
+                foreach (GameObject enemy in enemyRemaining)
+                {
+                    if (enemy != null && Vector3.Distance(randomPosition, enemy.transform.position) < minDistanceFromOtherEnemies)
+                    {
+                        isTooCloseToOtherEnemies = true;
+                        break;
+                    }
+                }
+
+                if (!isTooCloseToOtherEnemies)
+                {
+                    break;
+                }
+            }
+        }
+
+        return randomPosition;
+    }
+
+
+
+
+
     void StartNextWave()
     {
         StartCoroutine(currentWave % 4 == 0 ? IncreaseEnemies() : LevelUpEnemies());
@@ -41,8 +89,10 @@ public class WaveSpawner : MonoBehaviour
         enemyRemaining.Clear();
         currentWave++;
         transform.position = _firstPosition;
+        playerStats.LevelUp(); // Call the LevelUp method here
         StartNextWave();
     }
+
 
     private IEnumerator IncreaseEnemies()
     {
@@ -50,32 +100,34 @@ public class WaveSpawner : MonoBehaviour
         {
             foreach (GameObject enemyPrefab in enemyPrefabs)
             {
-                transform.position += Vector3.right * 20;
+                Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius);
+
+
                 if (_firstTime)
                 {
-                    GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
                     enemyRemaining.Add(enemy);
                     _firstTime = false;
                 }
                 else
                 {
                     yield return new WaitForSecondsRealtime(3f);
-                    GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
                     enemyRemaining.Add(enemy);
                 }
             }
         }
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator LevelUpEnemies()
     {
         foreach (GameObject enemyPrefab in enemyPrefabs)
         {
-            transform.position += Vector3.right * 20;
+            Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius);
+
             if (_firstTime)
             {
-                GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
                 if (currentWave > 1)
                 {
                     enemy.GetComponent<EnemyStats>().healthLevel *= 1.5f;
@@ -87,7 +139,7 @@ public class WaveSpawner : MonoBehaviour
             else
             {
                 yield return new WaitForSecondsRealtime(3f);
-                GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
                 if (currentWave > 1)
                 {
                     enemy.GetComponent<EnemyStats>().healthLevel *= 1.5f;
