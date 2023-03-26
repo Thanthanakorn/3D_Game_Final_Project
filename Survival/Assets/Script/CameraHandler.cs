@@ -84,10 +84,18 @@ public class CameraHandler : MonoBehaviour
             rotation.x = _pivotAngle;
 
             targetRotation = Quaternion.Euler(rotation);
-            cameraPivotTransform.localRotation = targetRotation;
+            if (cameraPivotTransform != null) // Add a null check before accessing cameraPivotTransform
+            {
+                cameraPivotTransform.localRotation = targetRotation;
+            }
         }
         else
         {
+            if (currentLockOnTarget == null || !currentLockOnTarget.gameObject.activeInHierarchy) // Check if the target is destroyed or inactive
+            {
+                ClearLockOnTargets(); // Disable lock-on if the target is destroyed or inactive
+                return;
+            }
             var position = currentLockOnTarget.transform.position;
             var dir = position - transform.position;
             dir.Normalize();
@@ -102,9 +110,13 @@ public class CameraHandler : MonoBehaviour
             targetRotation = Quaternion.LookRotation(dir);
             var eulerAngle = targetRotation.eulerAngles;
             eulerAngle.y = 0;
-            cameraPivotTransform.localEulerAngles = eulerAngle;
+            if (cameraPivotTransform != null) // Add a null check before accessing cameraPivotTransform
+            {
+                cameraPivotTransform.localEulerAngles = eulerAngle;
+            }
         }
     }
+
 
     private void HandleCameraCollisions(float delta)
     {

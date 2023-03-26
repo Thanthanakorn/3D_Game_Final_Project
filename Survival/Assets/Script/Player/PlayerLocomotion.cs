@@ -89,13 +89,17 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else
             {
-                var rotationDirection = moveDirection;
-                rotationDirection = _cameraHandler.currentLockOnTarget.transform.position - transform.position;
-                rotationDirection.y = 0;
-                rotationDirection.Normalize();
-                Quaternion tr = Quaternion.LookRotation(rotationDirection);
-                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
-                transform.rotation = targetRotation;
+                if (_cameraHandler.currentLockOnTarget != null) // Add null check
+                {
+                    var rotationDirection = moveDirection;
+                    rotationDirection = _cameraHandler.currentLockOnTarget.transform.position - transform.position;
+                    rotationDirection.y = 0;
+                    rotationDirection.Normalize();
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation =
+                        Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+                    transform.rotation = targetRotation;
+                }
             }
             
         }

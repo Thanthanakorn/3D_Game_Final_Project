@@ -88,16 +88,22 @@ public class PlayerManager : CharacterManager
         _inputHandler.rbInput = false;
         _inputHandler.jumpInput = false;
         _inputHandler.ltInput = false;
-        
+    
         var delta = Time.deltaTime;
-        
+    
         if (_cameraHandler == null) return;
         _cameraHandler.FollowTarget(delta);
-        _cameraHandler.HandleCameraRotation(delta, _inputHandler.mouseX, _inputHandler.mouseY);
+
+        // Add a null check before accessing _cameraHandler methods
+        if (_cameraHandler != null)
+        {
+            _cameraHandler.HandleCameraRotation(delta, _inputHandler.mouseX, _inputHandler.mouseY);
+        }
 
         if (isInAir)
         {
             _playerLocomotion.inAirTimer += Time.deltaTime;
         }
     }
+
 }

@@ -133,8 +133,11 @@ public class AnimatorHandler : AnimatorManager
     public void DisableIsAttacking()
     {
         animator.SetBool(IsAttacking, false);
+        _playerManager.isAttacking = false;
+        _playerLocomotion.rigidbody.drag = 4; // You can adjust this value according to your needs
+        canRotate = true;
     }
-
+    
     public void EnableIsInvulnerable()
     {
         animator.SetBool(IsInvulnerable, true);
