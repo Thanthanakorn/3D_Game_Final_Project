@@ -106,7 +106,11 @@ public class WaveSpawner : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
         waveText.gameObject.SetActive(false);
         transform.position = _firstPosition;
-        playerStats.LevelUp();
+        if (currentWave > 1)
+        {
+            playerStats.LevelUp();
+        }
+
         StartNextWave();
     }
 

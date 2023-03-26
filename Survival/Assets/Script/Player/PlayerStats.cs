@@ -111,7 +111,7 @@ public class PlayerStats : CharacterStats
     }
     public void LevelUp()
     {
-        healthLevel += 50;
+        healthLevel += 10;
         staminaLevel += 10;
         attackLevel += 5;
 

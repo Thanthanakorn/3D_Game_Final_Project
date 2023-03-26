@@ -2541,12 +2541,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1052534073fd4004ac4eb985762862d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 100
+  healthLevel: 10
   attackLevel: 10
   maxHealth: 0
-  currentHealth: 1000
+  currentHealth: 0
   isDead: 0
-  staminaLevel: 20
+  staminaLevel: 10
   maxStamina: 0
   currentStamina: 0
   healthBar: {fileID: 1618180284}
