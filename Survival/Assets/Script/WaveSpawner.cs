@@ -88,9 +88,10 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
-            StartCoroutine(LevelUpEnemies());
+            StartCoroutine(IncreaseEnemiesBasedOnPreviousWave());
         }
     }
+
 
 
 
@@ -146,38 +147,40 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-
-
-
-    private IEnumerator LevelUpEnemies()
+    private IEnumerator IncreaseEnemiesBasedOnPreviousWave()
     {
-        foreach (GameObject enemyPrefab in enemyPrefabs)
+        int sets = ((currentWave - 1) / 4) + 1;
+        for (int i = 0; i < sets; i++)
         {
-            Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius);
+            foreach (GameObject enemyPrefab in enemyPrefabs)
+            {
+                Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius);
 
-            if (_firstTime)
-            {
-                GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
-                if (currentWave > 1)
+                if (_firstTime)
                 {
-                    enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
-                    enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
+                    if (currentWave > 1)
+                    {
+                        enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                        enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    }
+                    enemyRemaining.Add(enemy);
+                    _firstTime = false;
                 }
-                enemyRemaining.Add(enemy);
-                _firstTime = false;
-            }
-            else
-            {
-                yield return new WaitForSecondsRealtime(3f);
-                GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
-                if (currentWave > 1)
+                else
                 {
-                    enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
-                    enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    yield return new WaitForSecondsRealtime(3f);
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
+                    if (currentWave > 1)
+                    {
+                        enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                        enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    }
+                    enemyRemaining.Add(enemy);
                 }
-                enemyRemaining.Add(enemy);
             }
         }
     }
+
 
 }
