@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
+
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -13,11 +15,12 @@ public class WaveSpawner : MonoBehaviour
     public float timeBetweenWaves = 5;
     public float minSpawnDistance = 5f;
     public float maxSpawnDistance = 150f;
-    public float colliderCheckRadius = 1f;
+    public float colliderCheckRadius = 5f;
     public float minDistanceFromOtherEnemies = 150f;
     
     public PlayerStats playerStats;
-
+    
+    public TextMeshProUGUI waveText;
 
 
 
@@ -79,8 +82,17 @@ public class WaveSpawner : MonoBehaviour
 
     void StartNextWave()
     {
-        StartCoroutine(currentWave % 4 == 0 ? IncreaseEnemies() : LevelUpEnemies());
+        if (currentWave % 4 == 0)
+        {
+            StartCoroutine(IncreaseEnemies());
+        }
+        else
+        {
+            StartCoroutine(LevelUpEnemies());
+        }
     }
+
+
 
     private IEnumerator WaitBeforeTheNextRound()
     {
@@ -88,24 +100,34 @@ public class WaveSpawner : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenWaves);
         enemyRemaining.Clear();
         currentWave++;
+        waveText.text = "Wave " + currentWave.ToString();
+        waveText.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(2f);
+        waveText.gameObject.SetActive(false);
         transform.position = _firstPosition;
-        playerStats.LevelUp(); // Call the LevelUp method here
+        playerStats.LevelUp();
         StartNextWave();
     }
 
 
+
     private IEnumerator IncreaseEnemies()
     {
-        for (int i = 0; i < (currentWave / 4) + 1; i++)
+        int sets = (currentWave / 4) + 1;
+        for (int i = 0; i < sets; i++)
         {
             foreach (GameObject enemyPrefab in enemyPrefabs)
             {
                 Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius);
 
-
                 if (_firstTime)
                 {
                     GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
+                    if (currentWave > 1)
+                    {
+                        enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                        enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    }
                     enemyRemaining.Add(enemy);
                     _firstTime = false;
                 }
@@ -113,11 +135,19 @@ public class WaveSpawner : MonoBehaviour
                 {
                     yield return new WaitForSecondsRealtime(3f);
                     GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
+                    if (currentWave > 1)
+                    {
+                        enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                        enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    }
                     enemyRemaining.Add(enemy);
                 }
             }
         }
     }
+
+
+
 
     private IEnumerator LevelUpEnemies()
     {
@@ -130,8 +160,8 @@ public class WaveSpawner : MonoBehaviour
                 GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
                 if (currentWave > 1)
                 {
-                    enemy.GetComponent<EnemyStats>().healthLevel *= 1.5f;
-                    enemy.GetComponent<EnemyStats>().attackLevel *= 1.5f;
+                    enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
                 }
                 enemyRemaining.Add(enemy);
                 _firstTime = false;
@@ -142,11 +172,12 @@ public class WaveSpawner : MonoBehaviour
                 GameObject enemy = Instantiate(enemyPrefab, spawnPosition, spawnPoint.rotation);
                 if (currentWave > 1)
                 {
-                    enemy.GetComponent<EnemyStats>().healthLevel *= 1.5f;
-                    enemy.GetComponent<EnemyStats>().attackLevel *= 1.5f;
+                    enemy.GetComponent<EnemyStats>().healthLevel *= Mathf.Pow(1.5f, currentWave - 1);
+                    enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
                 }
                 enemyRemaining.Add(enemy);
             }
         }
     }
+
 }

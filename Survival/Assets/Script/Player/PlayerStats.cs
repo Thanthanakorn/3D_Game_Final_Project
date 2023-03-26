@@ -112,6 +112,7 @@ public class PlayerStats : CharacterStats
     {
         healthLevel += 50;
         staminaLevel += 10;
+        attackLevel += 5;
 
         maxHealth = SetMaxHealthFromHealthLevel();
         currentHealth = maxHealth;
