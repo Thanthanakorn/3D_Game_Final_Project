@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using TMPro;
+using UnityEngine.AI;
+
 
 
 public class WaveSpawner : MonoBehaviour
@@ -21,6 +23,10 @@ public class WaveSpawner : MonoBehaviour
     public PlayerStats playerStats;
     
     public TextMeshProUGUI waveText;
+    public TextMeshProUGUI enemiesLeftText;
+    public TextMeshProUGUI currentWaveText;
+
+
 
 
 
@@ -31,6 +37,8 @@ public class WaveSpawner : MonoBehaviour
     {
         StartCoroutine(WaitBeforeTheNextRound());
         _firstPosition = spawnPoint.position;
+        UpdateEnemiesLeftText();
+        UpdateCurrentWaveText();
     }
 
     void Update()
@@ -39,11 +47,13 @@ public class WaveSpawner : MonoBehaviour
         {
             StartCoroutine(WaitBeforeTheNextRound());
         }
+        UpdateEnemiesLeftText();
     }
 
     Vector3 GetRandomPosition(float minDistance, float maxDistance, float minDistanceFromOtherEnemies, float colliderCheckRadius)
     {
         Vector3 randomPosition = spawnPoint.position;
+        NavMeshHit hit;
 
         for (int i = 0; i < 100; i++)
         {
@@ -51,10 +61,10 @@ public class WaveSpawner : MonoBehaviour
             randomDirection.y = 0;
             randomPosition = spawnPoint.position + randomDirection.normalized * UnityEngine.Random.Range(minDistance, maxDistance);
 
-            Collider[] colliders = Physics.OverlapSphere(randomPosition, colliderCheckRadius);
-
-            if (colliders.Length == 0)
+            if (NavMesh.SamplePosition(randomPosition, out hit, colliderCheckRadius, NavMesh.AllAreas))
             {
+                randomPosition = hit.position;
+
                 bool isTooCloseToOtherEnemies = false;
 
                 foreach (GameObject enemy in enemyRemaining)
@@ -101,6 +111,7 @@ public class WaveSpawner : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenWaves);
         enemyRemaining.Clear();
         currentWave++;
+        UpdateCurrentWaveText();
         waveText.text = "Wave " + currentWave.ToString();
         waveText.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
@@ -146,6 +157,7 @@ public class WaveSpawner : MonoBehaviour
                         enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
                     }
                     enemyRemaining.Add(enemy);
+                    UpdateEnemiesLeftText();
                 }
             }
         }
@@ -181,10 +193,22 @@ public class WaveSpawner : MonoBehaviour
                         enemy.GetComponent<EnemyStats>().attackLevel *= Mathf.Pow(1.5f, currentWave - 1);
                     }
                     enemyRemaining.Add(enemy);
+                    UpdateEnemiesLeftText();
                 }
             }
         }
     }
+    void UpdateEnemiesLeftText()
+    {
+        int enemiesLeft = enemyRemaining.Count(x => x != null);
+        enemiesLeftText.text = $"Enemies : {enemiesLeft}";
+    }
+    
+    void UpdateCurrentWaveText()
+    {
+        currentWaveText.text = $"Current Wave : {currentWave}";
+    }
+
 
 
 }
