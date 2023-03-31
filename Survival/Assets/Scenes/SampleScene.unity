@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.14792804, g: 0.11286714, b: 0.10325682, a: 1}
+  m_IndirectSpecularColor: {r: 0.14799687, g: 0.11288315, b: 0.10321267, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2541,7 +2541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1052534073fd4004ac4eb985762862d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 10
+  healthLevel: 1000
   attackLevel: 10
   maxHealth: 0
   currentHealth: 0

@@ -64,12 +64,6 @@ public class PlayerStats : CharacterStats
         Destroy(damageEffect, 1f);
 
         _animatorHandler.PlayTargetAnimation(damageAnimation, true);
-        if (Mathf.Approximately(_originalYPosition, 0f))
-        {
-            _originalYPosition = transform.position.y;
-        }
-        transform.position = new Vector3(transform.position.x,_originalYPosition, transform.position.z);
-
         if (currentHealth <= 0)
         {
             isDead = true;

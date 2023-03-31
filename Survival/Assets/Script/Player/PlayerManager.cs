@@ -77,8 +77,13 @@ public class PlayerManager : CharacterManager
     private void FixedUpdate()
     {
         var delta = Time.fixedDeltaTime;
-        _playerLocomotion.HandleMovement(delta);
-        _playerLocomotion.HandleFalling(delta, _playerLocomotion.moveDirection);
+
+        // Add this condition to prevent the player from moving or rotating when isBlocking is true
+        if (!isBlocking)
+        {
+            _playerLocomotion.HandleMovement(delta);
+            _playerLocomotion.HandleFalling(delta, _playerLocomotion.moveDirection);
+        }
     }
 
     private void LateUpdate()
@@ -94,9 +99,9 @@ public class PlayerManager : CharacterManager
         if (_cameraHandler == null) return;
         _cameraHandler.FollowTarget(delta);
 
-        // Add a null check before accessing _cameraHandler methods
-        if (_cameraHandler != null)
+        if (!isBlocking)
         {
+            _cameraHandler.FollowTarget(delta);
             _cameraHandler.HandleCameraRotation(delta, _inputHandler.mouseX, _inputHandler.mouseY);
         }
 
