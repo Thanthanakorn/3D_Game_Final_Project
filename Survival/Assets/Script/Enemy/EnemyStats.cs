@@ -33,7 +33,12 @@ public class EnemyStats : CharacterStats
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
     }
-    
+
+    private void Update()
+    {
+        FaceCamera();
+    }
+
     private float SetMaxHealthFromHealthLevel()
     {
         maxHealth = healthLevel * 10;
@@ -71,6 +76,16 @@ public class EnemyStats : CharacterStats
             _animatorHandler.PlayTargetAnimation(damageAnimation, true);
         }
     }
+    private void FaceCamera()
+    {
+        if (healthBar == null || CameraHandler.Singleton == null) return;
+
+        Camera mainCamera = CameraHandler.Singleton.cameraTransform.GetComponent<Camera>();
+        if (mainCamera == null) return;
+
+        healthBar.transform.rotation = Quaternion.LookRotation(healthBar.transform.position - mainCamera.transform.position);
+    }
+
 
    
 }

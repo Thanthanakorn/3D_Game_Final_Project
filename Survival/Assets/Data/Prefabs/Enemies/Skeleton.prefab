@@ -480,8 +480,8 @@ MonoBehaviour:
   rotationSpeed: 20
   maximumAttackRange: 7
   detectionRadius: 20
-  maximumDetectionAngle: 50
-  minimumDetectionAngle: -50
+  maximumDetectionAngle: 360
+  minimumDetectionAngle: -360
   currentRecoveryTime: 2
 --- !u!1 &2496871341555361211
 GameObject:
