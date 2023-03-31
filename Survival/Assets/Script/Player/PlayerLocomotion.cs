@@ -138,7 +138,7 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (_inputHandler.sprintFlag && _inputHandler.moveAmount > 0.5)
         {
-            if (_playerStats.currentStamina > 0)
+            if (_playerStats.currentStamina > 0 && _playerStats.currentStamina >= sprintStaminaConsume)
             {
                 speed = sprintSpeed;
             }

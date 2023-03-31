@@ -87,9 +87,16 @@ public class PlayerStats : CharacterStats
     public void TakeStaminaDamage(int damage)
     {
         if (currentStamina <= 0)
+        {
             currentStamina = 0;
-        currentStamina -= damage;
-        staminaBar.SetCurrentStamina(currentStamina);
+            return;
+        }
+
+        if (currentStamina >= damage)
+        {
+            currentStamina -= damage;
+            staminaBar.SetCurrentStamina(currentStamina);
+        }
     }
 
     public void RegenerateStamina()

@@ -26,7 +26,7 @@ public class PlayerAttacker : MonoBehaviour
 
     public void HandleLightAttack(WeaponItem weapon)
     {
-        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.lightAttackMultiplier) || _playerManager.isAttacking) return;
+        if (_playerStats.isDead || _playerStats.currentStamina < (weapon.baseStamina * weapon.lightAttackMultiplier) || _playerManager.isAttacking) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohLightAttack1, true);
         lastAttack = weapon.ohLightAttack1;
@@ -34,7 +34,7 @@ public class PlayerAttacker : MonoBehaviour
 
     public void HandleHeavyAttack(WeaponItem weapon)
     {
-        if (_playerStats.isDead || _playerStats.currentStamina <= (weapon.baseStamina * weapon.heavyAttackMultiplier) || _playerManager.isAttacking) return;
+        if (_playerStats.isDead || _playerStats.currentStamina < (weapon.baseStamina * weapon.heavyAttackMultiplier) || _playerManager.isAttacking) return;
         _weaponSlotManager.attackingWeapon = weapon;
         _animatorHandler.PlayTargetAttackingAnimation(weapon.ohHeavyAttack1, true);
         lastAttack = weapon.ohHeavyAttack1;
@@ -44,7 +44,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (_inputHandler.comboFlag)
         {
-            if (_playerStats.isDead || _playerStats.currentStamina <= 0) return;
+            if (_playerStats.isDead || _playerStats.currentStamina < (weapon.baseStamina * weapon.heavyAttackMultiplier)) return;
             
             ((AnimatorManager)_animatorHandler).animator.SetBool(CanDoCombo, false);
             
