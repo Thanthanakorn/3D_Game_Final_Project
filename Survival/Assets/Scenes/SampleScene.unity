@@ -2007,6 +2007,9 @@ MonoBehaviour:
   waveText: {fileID: 922002346}
   enemiesLeftText: {fileID: 165305988}
   currentWaveText: {fileID: 1449973185}
+  spawnLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!1001 &596457277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2680,7 +2683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1052534073fd4004ac4eb985762862d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 1000
+  healthLevel: 10
   attackLevel: 10
   maxHealth: 0
   currentHealth: 0

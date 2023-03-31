@@ -25,6 +25,9 @@ public class WaveSpawner : MonoBehaviour
     public TextMeshProUGUI waveText;
     public TextMeshProUGUI enemiesLeftText;
     public TextMeshProUGUI currentWaveText;
+    
+    public LayerMask spawnLayerMask;
+
 
 
 
@@ -76,7 +79,7 @@ public class WaveSpawner : MonoBehaviour
                     }
                 }
 
-                if (!isTooCloseToOtherEnemies)
+                if (!isTooCloseToOtherEnemies && !Physics.CheckSphere(randomPosition, colliderCheckRadius, spawnLayerMask))
                 {
                     break;
                 }
@@ -85,8 +88,6 @@ public class WaveSpawner : MonoBehaviour
 
         return randomPosition;
     }
-
-
 
 
 
