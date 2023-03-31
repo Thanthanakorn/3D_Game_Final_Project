@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,6 +49,11 @@ public class CameraHandler : MonoBehaviour
         targetTransform = FindObjectOfType<PlayerManager>().transform;
         _inputHandler = FindObjectOfType<InputHandler>();
         _playerManager = FindObjectOfType<PlayerManager>();
+    }
+
+    private void Update()
+    {
+        UpdateCursorLock();
     }
 
     private void Start()
@@ -250,4 +256,18 @@ public class CameraHandler : MonoBehaviour
                 cameraPivotTransform.transform.localPosition, newUnlockedPosition, ref velocity, Time.deltaTime);
         }
     }
+    private void UpdateCursorLock()
+    {
+        if (PauseMenu.GameIsPaused || DeadMenu.IsDead)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
 }
