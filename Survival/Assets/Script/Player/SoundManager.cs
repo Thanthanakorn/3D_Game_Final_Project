@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip hurtSound;
     public AudioClip deadSound;
     public AudioClip shieldSound;
-    
+
     [Header("Delay")]
     public float delayBetweenSounds = 0.2f;
     private bool canPlaySound = true;
@@ -77,8 +77,7 @@ public class SoundManager : MonoBehaviour
     
     public void PlayRunSound()
     {
-        if(_playerManager.isAttacking){return;}
-        if (soundsEnabled && runSound != null && canPlaySound)
+        if (soundsEnabled && runSound != null && canPlaySound && _playerManager.isSprinting && !_playerManager.isAttacking)
         {
             audioSource.clip = runSound;
             audioSource.Play();
@@ -87,8 +86,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayWalkSound()
     {
-        if(_playerManager.isAttacking){return;}
-        if (soundsEnabled && walkSound != null && canPlaySound)
+        if (soundsEnabled && walkSound != null && canPlaySound && !_playerManager.isSprinting && !_playerManager.isAttacking)
         {
             audioSource.clip = walkSound;
             audioSource.Play();
