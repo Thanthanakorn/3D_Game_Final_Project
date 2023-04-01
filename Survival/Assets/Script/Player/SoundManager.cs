@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -21,7 +22,14 @@ public class SoundManager : MonoBehaviour
     [Header("Delay")]
     public float delayBetweenSounds = 0.2f;
     private bool canPlaySound = true;
-    
+
+    private PlayerManager _playerManager;
+
+    private void Awake()
+    {
+        _playerManager = GetComponentInParent<PlayerManager>();
+    }
+
     public void PlayShieldSound()
     {
         if (soundsEnabled && shieldSound!= null && canPlaySound)
@@ -69,6 +77,7 @@ public class SoundManager : MonoBehaviour
     
     public void PlayRunSound()
     {
+        if(_playerManager.isAttacking){return;}
         if (soundsEnabled && runSound != null && canPlaySound)
         {
             audioSource.clip = runSound;
@@ -78,6 +87,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayWalkSound()
     {
+        if(_playerManager.isAttacking){return;}
         if (soundsEnabled && walkSound != null && canPlaySound)
         {
             audioSource.clip = walkSound;
