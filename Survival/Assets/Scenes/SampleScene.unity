@@ -2961,7 +2961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 846521456}
   soundsEnabled: 1
-  walkSound: {fileID: 8300000, guid: 06bb7c9d3c43e714ab0ec12cee97e894, type: 3}
+  walkSound: {fileID: 8300000, guid: 257d04d8b03f91a45937eaafa8a76b6e, type: 3}
   attackSound: {fileID: 8300000, guid: 80f767d722443e14ba2af0cdac1c6e6d, type: 3}
   runSound: {fileID: 8300000, guid: 257d04d8b03f91a45937eaafa8a76b6e, type: 3}
   rollSound: {fileID: 8300000, guid: f4170d9069eebc640a3c3a9902e50e18, type: 3}
