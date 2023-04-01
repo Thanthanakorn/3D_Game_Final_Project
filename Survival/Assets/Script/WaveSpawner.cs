@@ -27,7 +27,9 @@ public class WaveSpawner : MonoBehaviour
     public TextMeshProUGUI currentWaveText;
     
     public LayerMask spawnLayerMask;
-
+    
+    public AudioSource soundManager;
+    public AudioClip passWaveSound;
 
 
 
@@ -110,6 +112,10 @@ public class WaveSpawner : MonoBehaviour
     {
         _firstTime = true;
         yield return new WaitForSecondsRealtime(timeBetweenWaves);
+        if (soundManager != null && passWaveSound != null)
+        {
+            soundManager.PlayOneShot(passWaveSound);
+        }
         enemyRemaining.Clear();
         currentWave++;
         UpdateCurrentWaveText();
