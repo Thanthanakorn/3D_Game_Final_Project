@@ -58,6 +58,10 @@ public class PlayerStats : CharacterStats
         if (isDead) return;
         currentHealth -= damage;
         GetComponent<Rigidbody>().AddForce(Vector3.up * 50);
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
         healthBar.SetCurrentHealth(currentHealth);
         GameObject damageEffect = Instantiate(damageEffectPrefab, damageEffectPosition.position, damageEffectPosition.rotation);
         damageEffect.transform.SetParent(transform);
