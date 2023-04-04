@@ -3059,7 +3059,7 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   isDead: 0
-  staminaLevel: 1000
+  staminaLevel: 10
   maxStamina: 0
   currentStamina: 0
   healthBar: {fileID: 1618180284}
