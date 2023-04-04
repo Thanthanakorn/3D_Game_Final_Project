@@ -88,7 +88,9 @@ public class SoundManager : MonoBehaviour
     {
         if (soundsEnabled && walkSound != null && canPlaySound && !_playerManager.isSprinting && !_playerManager.isAttacking)
         {
+        
             audioSource.clip = walkSound;
+            audioSource.volume = 0.5f;
             audioSource.Play();
         }
     }
