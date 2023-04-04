@@ -101,6 +101,7 @@ public class SoundManager : MonoBehaviour
             audioSource.Play();
         }
     }
+
     private IEnumerator DelayNextSound()
     {
         canPlaySound = false;

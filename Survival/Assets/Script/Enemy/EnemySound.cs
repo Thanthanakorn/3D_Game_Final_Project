@@ -12,6 +12,8 @@ public class EnemySound : MonoBehaviour
     [Header("Sounds")]
     public AudioClip hurtSound;
     public AudioClip deadSound;
+    public AudioClip parriedSound;
+    public AudioClip attackSound;
 
     [Header("Delay")]
     public float delayBetweenSounds = 0.2f;
@@ -38,6 +40,23 @@ public class EnemySound : MonoBehaviour
         }
     }
 
+    public void EnemyParriedSound()
+    {
+        if (soundsEnabled && parriedSound!= null && canPlaySound)
+        {
+            audioSource.clip = parriedSound;
+            audioSource.Play();
+        }
+    }
+
+    public void EnemyAttackSound()
+    {
+        if (soundsEnabled && attackSound!= null && canPlaySound)
+        {
+            audioSource.clip = attackSound;
+            audioSource.Play();
+        }
+    }
 
     private IEnumerator DelayNextSound()
     {
