@@ -55,12 +55,12 @@ public class WaveSpawner : MonoBehaviour
         UpdateEnemiesLeftText();
     }
 
-    Vector3 GetRandomPosition(float minDistance, float maxDistance, float minDistanceFromOtherEnemies, float colliderCheckRadius)
+    Vector3 GetRandomPosition(float minDistance, float maxDistance, float minDistanceFromOtherEnemies, float colliderCheckRadius, int maxAttempts)
     {
         Vector3 randomPosition = spawnPoint.position;
         NavMeshHit hit;
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < maxAttempts; i++)
         {
             Vector3 randomDirection = UnityEngine.Random.insideUnitSphere;
             randomDirection.y = 0;
@@ -90,6 +90,7 @@ public class WaveSpawner : MonoBehaviour
 
         return randomPosition;
     }
+
 
 
 
@@ -141,7 +142,7 @@ public class WaveSpawner : MonoBehaviour
         {
             foreach (GameObject enemyPrefab in enemyPrefabs)
             {
-                Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius);
+                Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius, 1000*sets);
 
                 if (_firstTime)
                 {
@@ -177,7 +178,7 @@ public class WaveSpawner : MonoBehaviour
         {
             foreach (GameObject enemyPrefab in enemyPrefabs)
             {
-                Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius);
+                Vector3 spawnPosition = GetRandomPosition(minSpawnDistance, maxSpawnDistance, minDistanceFromOtherEnemies, colliderCheckRadius, 1000*sets);
 
                 if (_firstTime)
                 {
