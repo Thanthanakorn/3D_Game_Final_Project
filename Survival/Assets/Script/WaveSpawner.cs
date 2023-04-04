@@ -16,9 +16,9 @@ public class WaveSpawner : MonoBehaviour
     public int currentWave;
     public float timeBetweenWaves = 5;
     public float minSpawnDistance = 5f;
-    public float maxSpawnDistance = 150f;
-    public float colliderCheckRadius = 5f;
-    public float minDistanceFromOtherEnemies = 150f;
+    public float maxSpawnDistance = 210f;
+    public float colliderCheckRadius = 50f;
+    public float minDistanceFromOtherEnemies = 20f;
     
     public PlayerStats playerStats;
     
